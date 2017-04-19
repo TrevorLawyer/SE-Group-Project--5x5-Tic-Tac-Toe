@@ -5,13 +5,7 @@
  */
 package model;
 
-/**
- *
- * @author micha
- */
-
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *
@@ -44,59 +38,215 @@ public class BotPlayer extends Player{
     
     private byte bestPossibleMove(){
         baseScore = gameState.availableMoves().size() + 1;
+        
         int bound = baseScore + 1;
-        minMax(gameState, INITIAL_DEPTH, -bound, bound);
+        currentMoveChoice = findMove(gameState);
         return currentMoveChoice;
     }
     
-    private int minMax(GameState gameState, int depth, int lowerBound, int upperBound){
-        if(gameState.gameOver()){
-            return evaluateState(gameState, depth);
+   
+    private byte findMove(GameState gameState){
+        ArrayList<MoveNode> moves = new ArrayList();
+        
+        for (Spot spot : gameState.getBoard().getBoard()){
+            moves.add(new MoveNode(spot.getIndex()));
+            
+        }
+
+        scoreOnOs(moves);
+        String moveBoard = "";
+        for (MoveNode move : moves){
+            moveBoard += move.toString();
+        }
+        System.out.print(moveBoard);
+        System.out.println();
+        scoreOnXs(moves);
+        moveBoard = "";
+        for (MoveNode move : moves){
+            moveBoard += move.toString();
+        }
+        System.out.print(moveBoard);
+        
+        
+        return findHighestScore(moves);
+    }
+    
+    private void scoreOnOs( ArrayList<MoveNode> moves){
+        int[] lrDiagonal = new int[]{0,6,12,18,24};
+        int[] rlDiagonal = new int[]{4,8,12,16,20};
+        int scoreToAdd = 0;
+        boolean hasX = false;
+        
+        
+
+        for(Byte rowIndex : gameState.getBoard().getRowStarts()){
+            hasX = false;
+            scoreToAdd = 0;
+            for(int i = rowIndex; i < (rowIndex + 5); i++){
+                if(!gameState.getBoard().getBoard().get(i).isxPlayer() && gameState.getBoard().getBoard().get(i).isTaken()){
+                    scoreToAdd++;
+                }
+                
+                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
+                    hasX = true;
+                }
+                
+            }
+            
+            if(hasX){
+                scoreToAdd = 0;
+            }
+            
+            for(int i = rowIndex; i < (rowIndex + 5); i++){
+                if(!gameState.getBoard().getBoard().get(i).isTaken()){
+                    moves.get(i).addScore(scoreToAdd);
+                }
+            }
+        }
+        scoreToAdd = 0;
+        for(Byte columnIndex : gameState.getBoard().getColumnStarts()){
+            hasX = false;
+            scoreToAdd = 0;
+            for(int i = columnIndex; i < columnIndex + 21; i+= 5){
+                if(!gameState.getBoard().getBoard().get(i).isxPlayer()  && gameState.getBoard().getBoard().get(i).isTaken()){
+                    scoreToAdd++;
+                }
+                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
+                    hasX = true;
+                }
+            }
+            
+            if(hasX){
+                scoreToAdd = 0;
+            }
+            
+            for(int i = columnIndex; i < columnIndex + 21; i+= 5){
+                if(!gameState.getBoard().getBoard().get(i).isTaken()){
+                    moves.get(i).addScore(scoreToAdd);
+                }
+            }
+        }
+
+        //Check LR Diagonal
+        scoreToAdd = 0;
+        hasX = false;
+        for (int spotIndex : lrDiagonal){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isxPlayer()  && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+                    scoreToAdd++;
+            }
+            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
+                    hasX = true;
+            }
         }
         
-        ArrayList<MoveNode> moveNodes = new ArrayList();
-
-        for (Spot spot : gameState.availableMoves()){
-            if(spot != null){
-                GameState childBoard = gameState.makeMove(spot.getIndex());
-                System.out.println("Parent: " + gameState.getGameStateID() + " Child Board: " + childBoard.getGameStateID() + "\n" + childBoard.getBoard().toString());
-                int score = minMax(childBoard, depth + 1, lowerBound, upperBound);
-
-                MoveNode moveNode = new MoveNode(spot.getIndex(), score);
-
-                if(!gameState.isIsMyTurn()){
-                    moveNodes.add(moveNode);
-                    if(moveNode.getScore() > lowerBound){
-                        lowerBound = moveNode.getScore();
-                    }
-                }else{
-                    if(moveNode.getScore() < upperBound){
-                        upperBound = moveNode.getScore();
-                    }
-                }
-
-                if(upperBound < lowerBound) break;
+        if(hasX){
+            scoreToAdd = 0;
+        }
+        
+        for (int spotIndex : lrDiagonal){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+                moves.get(spotIndex).addScore(scoreToAdd);
             }
             
         }
-        
-        if(!gameState.isIsMyTurn()){
-            return upperBound;
-        }
-        if(!moveNodes.isEmpty()){
-            MoveNode highestScore = Collections.max(moveNodes, new CompareMoves());
-            currentMoveChoice = highestScore.getSpot();
-        }
-        return lowerBound;
-    }
-    
-    
 
-    private int evaluateState(GameState gameState, int depth){
-        if(gameState.getWinner().getGameWinner() == Winner.X){
-            return baseScore - depth;
-        }else if(gameState.getWinner().getGameWinner() == Winner.O){
-            return depth - baseScore;
-        }else return 0;
+        //Check rlDiagonal
+        scoreToAdd = 0;
+        for (int spotIndex : rlDiagonal){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isxPlayer() && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+                    scoreToAdd++;
+                }
+            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
+                    hasX = true;
+            }
+        }
+        
+        if(hasX){
+            scoreToAdd = 0;
+        }
+        for (int spotIndex : rlDiagonal){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+                moves.get(spotIndex).addScore(scoreToAdd);
+            }
+        }
+            
+
     }
+    
+    private void scoreOnXs(ArrayList<MoveNode> moves){
+        int[] lrDiagonal = new int[]{0,6,12,18,24};
+        int[] rlDiagonal = new int[]{4,8,12,16,20};
+        int scoreToAdd;
+        
+        
+
+        for(Byte rowIndex : gameState.getBoard().getRowStarts()){
+            scoreToAdd = 0;
+            for(int i = rowIndex; i < (rowIndex + 5); i++){
+                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
+                    scoreToAdd++;
+                }
+            }
+            for(int i = rowIndex; i < (rowIndex + 5); i++){
+                if(!gameState.getBoard().getBoard().get(i).isTaken()){
+                    moves.get(i).addScore(scoreToAdd);
+                }
+            }
+        }
+        
+        for(Byte columnIndex : gameState.getBoard().getColumnStarts()){
+            scoreToAdd = 0;
+            for(int i = columnIndex; i < columnIndex + 21; i+= 5){
+                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
+                    scoreToAdd++;
+                }
+            }
+            for(int i = columnIndex; i < columnIndex + 21; i+= 5){
+                if(!gameState.getBoard().getBoard().get(i).isTaken()){
+                    moves.get(i).addScore(scoreToAdd);
+                }
+            }
+        }
+
+        //Check LR Diagonal
+        scoreToAdd = 0;
+        for (int spotIndex : lrDiagonal){
+            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
+                    scoreToAdd++;
+                }
+        }
+        for (int spotIndex : lrDiagonal){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+                moves.get(spotIndex).addScore(scoreToAdd);
+            }
+        }
+
+        //Check rlDiagonal
+        scoreToAdd = 0;
+        for (int spotIndex : rlDiagonal){
+            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
+                    scoreToAdd++;
+                }
+        }
+        for (int spotIndex : rlDiagonal){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+                moves.get(spotIndex).addScore(scoreToAdd);
+            }
+        }
+    }
+    
+    private byte findHighestScore(ArrayList<MoveNode> moves){
+        int highestScore = -1;
+        byte bestSpot = -1;
+        
+        for (MoveNode move : moves){
+            if(move.getScore() > highestScore){
+                bestSpot = move.getSpot();
+                highestScore = move.getScore();
+            }
+        }
+        
+        return bestSpot;
+    }
+
 }
