@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package controller;
 
 import java.util.ArrayList;
 
@@ -66,9 +66,14 @@ public class VirtualGameBoard {
         
     }
     
-    public void makeMove(int spot, boolean isMyTurn){
+    public void makeBotMove(int spot, boolean isXTurn, boolean isMe){
+        makeMove(spot, isXTurn);
+        board.get(spot).setIsMe(isMe);
+    }
+    
+    public void makeMove(int spot, boolean isXTurn){
         board.get(spot).setTaken(true);
-        board.get(spot).setxPlayer(isMyTurn);
+        board.get(spot).setIsX(isXTurn);
         numOfBlanks--;
         numOccupied++;
         blankSpaces.set(spot, null);
@@ -145,7 +150,7 @@ public class VirtualGameBoard {
                 gameBoard += "\n";
             }
             if(spot.isTaken()){
-                if(spot.isxPlayer()){
+                if(spot.isX()){
                     gameBoard += " |x| ";
                 }else{
                     gameBoard += " |0| ";

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package controller;
 
 import java.util.ArrayList;
 
@@ -45,6 +45,14 @@ public class GameState {
         this.board = board;
         minMovesRequiredToWin = (int) ((2 * board.getWidth()) - 1);
         checkForWin();
+    }
+    
+    public GameState makeBotMove(int spot, boolean isMe){
+        GameState state = new GameState(this);
+        
+        state.getBoard().makeBotMove(spot, isXTurn, isMe);
+        state.changeTurns();
+        return state;
     }
     
     public GameState makeMove(int spot){
@@ -144,21 +152,21 @@ public class GameState {
                     if(board.contentsOfSpot((int) (startIndex + 3)).isTaken())
                         if(board.contentsOfSpot((int) (startIndex + 4)).isTaken()){
                             int playerCount = 1;
-                            if(board.contentsOfSpot(startIndex).isxPlayer()){
+                            if(board.contentsOfSpot(startIndex).isMe()){
                                 for (int i = 1; i < 5; i++){
-                                    if(board.contentsOfSpot((int)(startIndex + i)).isxPlayer()){
+                                    if(board.contentsOfSpot((int)(startIndex + i)).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
                                 for (int i = 1; i < 5; i++){
-                                    if(!board.contentsOfSpot((int)(startIndex + i)).isxPlayer()){
+                                    if(!board.contentsOfSpot((int)(startIndex + i)).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }
                             if(playerCount == 5){
-                                if(board.contentsOfSpot(startIndex).isxPlayer()){
+                                if(board.contentsOfSpot(startIndex).isMe()){
                                     winner.setGameWinner(Winner.X);
                                     hasWinner = true;
                                     return true;
@@ -180,21 +188,21 @@ public class GameState {
                     if(board.contentsOfSpot((int) (startIndex + 15)).isTaken())
                         if(board.contentsOfSpot((int) (startIndex + 20)).isTaken()){
                             int playerCount = 1;
-                            if(board.contentsOfSpot(startIndex).isxPlayer()){
+                            if(board.contentsOfSpot(startIndex).isMe()){
                                 for (int i = 1; i < 5; i++){
-                                    if(board.contentsOfSpot((int)(startIndex + (5*i))).isxPlayer()){
+                                    if(board.contentsOfSpot((int)(startIndex + (5*i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
                                 for (int i = 1; i < 5; i++){
-                                    if(!board.contentsOfSpot((int)(startIndex +(5*i))).isxPlayer()){
+                                    if(!board.contentsOfSpot((int)(startIndex +(5*i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }
                             if(playerCount == 5){
-                                if(board.contentsOfSpot(startIndex).isxPlayer()){
+                                if(board.contentsOfSpot(startIndex).isMe()){
                                     winner.setGameWinner(Winner.X);
                                     hasWinner = true;
                                     return true;
@@ -215,21 +223,21 @@ public class GameState {
                     if(board.contentsOfSpot((int) (startIndex + 18)).isTaken())
                         if(board.contentsOfSpot((int) (startIndex + 24)).isTaken()){
                             int playerCount = 1;
-                            if(board.contentsOfSpot(startIndex).isxPlayer()){
+                            if(board.contentsOfSpot(startIndex).isMe()){
                                 for (int i = 1; i < board.getNumOfSpaces(); i =(int) (i + 6)){
-                                    if(board.contentsOfSpot((int)(startIndex + (i))).isxPlayer()){
+                                    if(board.contentsOfSpot((int)(startIndex + (i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
                                 for (int i = 1; i < board.getNumOfSpaces(); i =(int) (i + 6)){
-                                    if(!board.contentsOfSpot((int)(startIndex +(i))).isxPlayer()){
+                                    if(!board.contentsOfSpot((int)(startIndex +(i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }
                             if(playerCount == 5){
-                                if(board.contentsOfSpot(startIndex).isxPlayer()){
+                                if(board.contentsOfSpot(startIndex).isMe()){
                                     winner.setGameWinner(Winner.X);
                                     hasWinner = true;
                                     return true;
@@ -249,21 +257,21 @@ public class GameState {
                     if(board.contentsOfSpot((int) (startIndex + 12)).isTaken())
                         if(board.contentsOfSpot((int) (startIndex + 16)).isTaken()){
                             int playerCount = 1;
-                            if(board.contentsOfSpot(startIndex).isxPlayer()){
+                            if(board.contentsOfSpot(startIndex).isMe()){
                                 for (int i = 1; i < 21; i =(int) (i + 4)){
-                                    if(board.contentsOfSpot((int)(startIndex + (i))).isxPlayer()){
+                                    if(board.contentsOfSpot((int)(startIndex + (i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
                                 for (int i = 1; i < 21; i =(int) (i + 4)){
-                                    if(!board.contentsOfSpot((int)(startIndex +(i))).isxPlayer()){
+                                    if(!board.contentsOfSpot((int)(startIndex +(i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }
                             if(playerCount == 5){
-                                if(board.contentsOfSpot(startIndex).isxPlayer()){
+                                if(board.contentsOfSpot(startIndex).isMe()){
                                     winner.setGameWinner(Winner.X);
                                     hasWinner = true;
                                     return true;

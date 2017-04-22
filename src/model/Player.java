@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameState;
+
 public abstract class Player {
     private boolean isXPlayer;
     

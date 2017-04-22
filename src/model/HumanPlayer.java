@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameState;
+
 public class HumanPlayer extends Player{
 
     private int moveSelected;
@@ -18,5 +20,5 @@ public class HumanPlayer extends Player{
     public void setMoveSelected(int moveSpot){
         moveSelected = moveSpot;
     }
-    
+   
 }

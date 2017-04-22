@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package controller;
 
 /**
  *
@@ -11,19 +11,21 @@ package model;
  */
 public class Spot {
     private boolean taken;
-    private boolean xPlayer;
+    private boolean isMe;
     private int index;
+    private boolean isX;
     
     public Spot(int index){
         taken = false;
-        xPlayer = false;
+        isMe = false;
         this.index = index;
     }
     
     public Spot(Spot spot){
         this.taken = spot.isTaken();
-        this.xPlayer = spot.isxPlayer();
+        this.isMe = spot.isMe();
         this.index = spot.getIndex();
+        this.isX = spot.isX;
     }
     public boolean isTaken() {
         return taken;
@@ -33,17 +35,26 @@ public class Spot {
         this.taken = taken;
     }
 
-    public boolean isxPlayer() {
-        return xPlayer;
+    public boolean isMe() {
+        return isMe;
     }
 
-    public void setxPlayer(boolean xPlayer) {
-        this.xPlayer = xPlayer;
+    public void setIsMe(boolean isMe) {
+        this.isMe = isMe;
     }
 
     public int getIndex() {
         return index;
     }
+
+    public boolean isX() {
+        return isX;
+    }
+
+    public void setIsX(boolean isX) {
+        this.isX = isX;
+    }
+    
     
     
 

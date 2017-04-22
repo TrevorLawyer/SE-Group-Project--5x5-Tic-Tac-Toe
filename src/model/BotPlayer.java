@@ -5,6 +5,9 @@
  */
 package model;
 
+import controller.GameState;
+import controller.MoveNode;
+import controller.Spot;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +30,7 @@ public class BotPlayer extends Player{
         this.gameState = new GameState(gameState);
         int move = chooseMove();
         System.out.println("Move Made: " + move);
-        this.gameState = gameState.makeMove(move);
+        this.gameState = gameState.makeBotMove(move, true);
         return this.gameState;
     }
     
@@ -80,25 +83,25 @@ public class BotPlayer extends Player{
         int[] lrDiagonal = new int[]{0,6,12,18,24};
         int[] rlDiagonal = new int[]{4,8,12,16,20};
         int scoreToAdd = 0;
-        boolean hasX = false;
+        boolean iHaveSpot = false;
         
         
 
         for(int rowIndex : gameState.getBoard().getRowStarts()){
-            hasX = false;
+            iHaveSpot = false;
             scoreToAdd = 0;
             for(int i = rowIndex; i < (rowIndex + 5); i++){
-                if(!gameState.getBoard().getBoard().get(i).isxPlayer() && gameState.getBoard().getBoard().get(i).isTaken()){
+                if(!gameState.getBoard().getBoard().get(i).isMe() && gameState.getBoard().getBoard().get(i).isTaken()){
                     scoreToAdd++;
                 }
                 
-                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
-                    hasX = true;
+                if(gameState.getBoard().getBoard().get(i).isMe()){
+                    iHaveSpot = true;
                 }
                 
             }
             
-            if(hasX){
+            if(iHaveSpot){
                 scoreToAdd = 0;
             }
             
@@ -110,18 +113,18 @@ public class BotPlayer extends Player{
         }
         scoreToAdd = 0;
         for(int columnIndex : gameState.getBoard().getColumnStarts()){
-            hasX = false;
+            iHaveSpot = false;
             scoreToAdd = 0;
             for(int i = columnIndex; i < columnIndex + 21; i+= 5){
-                if(!gameState.getBoard().getBoard().get(i).isxPlayer()  && gameState.getBoard().getBoard().get(i).isTaken()){
+                if(!gameState.getBoard().getBoard().get(i).isMe()  && gameState.getBoard().getBoard().get(i).isTaken()){
                     scoreToAdd++;
                 }
-                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
-                    hasX = true;
+                if(gameState.getBoard().getBoard().get(i).isMe()){
+                    iHaveSpot = true;
                 }
             }
             
-            if(hasX){
+            if(iHaveSpot){
                 scoreToAdd = 0;
             }
             
@@ -134,17 +137,17 @@ public class BotPlayer extends Player{
 
         //Check LR Diagonal
         scoreToAdd = 0;
-        hasX = false;
+        iHaveSpot = false;
         for (int spotIndex : lrDiagonal){
-            if(!gameState.getBoard().getBoard().get(spotIndex).isxPlayer()  && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isMe()  && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
                     scoreToAdd++;
             }
-            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
-                    hasX = true;
+            if(gameState.getBoard().getBoard().get(spotIndex).isMe()){
+                    iHaveSpot = true;
             }
         }
         
-        if(hasX){
+        if(iHaveSpot){
             scoreToAdd = 0;
         }
         
@@ -158,15 +161,15 @@ public class BotPlayer extends Player{
         //Check rlDiagonal
         scoreToAdd = 0;
         for (int spotIndex : rlDiagonal){
-            if(!gameState.getBoard().getBoard().get(spotIndex).isxPlayer() && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
+            if(!gameState.getBoard().getBoard().get(spotIndex).isMe() && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
                     scoreToAdd++;
                 }
-            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
-                    hasX = true;
+            if(gameState.getBoard().getBoard().get(spotIndex).isMe()){
+                    iHaveSpot = true;
             }
         }
         
-        if(hasX){
+        if(iHaveSpot){
             scoreToAdd = 0;
         }
         for (int spotIndex : rlDiagonal){
@@ -188,7 +191,7 @@ public class BotPlayer extends Player{
         for(int rowIndex : gameState.getBoard().getRowStarts()){
             scoreToAdd = 0;
             for(int i = rowIndex; i < (rowIndex + 5); i++){
-                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
+                if(gameState.getBoard().getBoard().get(i).isMe()){
                     scoreToAdd++;
                 }
             }
@@ -202,7 +205,7 @@ public class BotPlayer extends Player{
         for(int columnIndex : gameState.getBoard().getColumnStarts()){
             scoreToAdd = 0;
             for(int i = columnIndex; i < columnIndex + 21; i+= 5){
-                if(gameState.getBoard().getBoard().get(i).isxPlayer()){
+                if(gameState.getBoard().getBoard().get(i).isMe()){
                     scoreToAdd++;
                 }
             }
@@ -216,7 +219,7 @@ public class BotPlayer extends Player{
         //Check LR Diagonal
         scoreToAdd = 0;
         for (int spotIndex : lrDiagonal){
-            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
+            if(gameState.getBoard().getBoard().get(spotIndex).isMe()){
                     scoreToAdd++;
                 }
         }
@@ -229,7 +232,7 @@ public class BotPlayer extends Player{
         //Check rlDiagonal
         scoreToAdd = 0;
         for (int spotIndex : rlDiagonal){
-            if(gameState.getBoard().getBoard().get(spotIndex).isxPlayer()){
+            if(gameState.getBoard().getBoard().get(spotIndex).isMe()){
                     scoreToAdd++;
                 }
         }
