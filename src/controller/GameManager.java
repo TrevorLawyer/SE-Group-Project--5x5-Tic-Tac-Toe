@@ -20,7 +20,7 @@ import model.SocketNetwork;
 public class GameManager{
     private static int gameMode;
     public static Game game;
-    public static ArrayList<Player> player;   
+    public static ArrayList<Player> player = new ArrayList();   
     public static NetworkImplementer network;
     
     public static void selectGameMode(int gm){

@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import controller.NetworkImplementer;
 
-/**
- *
- * @author micha
- */
 public class Game {
     private final NetworkImplementer network;
     private final int SIZE = 5;
@@ -20,7 +11,6 @@ public class Game {
     
     public Game(int gm){
         moves = new char[SIZE][SIZE];
-        moves[0][0]=X;moves[1][0]=X;moves[2][0]=X;moves[3][0]=X;moves[4][0]=X;
         if(gm == GameMode.NETWORK){
             network = new SocketNetwork();
         }
