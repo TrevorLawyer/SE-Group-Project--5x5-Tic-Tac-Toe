@@ -9,7 +9,7 @@ public abstract class Player {
         this.isXPlayer = isXPlayer;
     }
     
-    abstract public GameState takeTurn(GameState gameState);
+    abstract public GameState takeTurn(GameState gameState, int selectedSpot);
     public void gameResults(){
         
     }
