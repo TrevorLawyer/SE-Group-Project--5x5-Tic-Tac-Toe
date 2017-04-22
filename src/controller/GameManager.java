@@ -14,7 +14,7 @@ import model.Player;
 import model.SocketNetwork;
 
 public class GameManager{
-    private static int gameMode;
+    public static int gameMode;
     public static Game game;
     public static ArrayList<Player> player = new ArrayList();   
     public static NetworkImplementer network;
