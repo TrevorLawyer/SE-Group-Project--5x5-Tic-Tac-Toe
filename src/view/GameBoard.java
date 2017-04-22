@@ -96,7 +96,11 @@ public class GameBoard extends JFrame{
         c.add(gameArea);
                 
     }
-    
+    public void startGame(){
+        for(int i = 0; i < MAX_TILES;i++){
+            tiles.get(i).setEnabled(true);
+        }
+    }
     public void displayMove(int m){
         tiles.get(m).setText(currentTurn);
         tiles.get(m).setEnabled(false);
