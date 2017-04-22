@@ -1,6 +1,8 @@
 package model;
 
+import controller.GameState;
 import controller.NetworkImplementer;
+import controller.VirtualGameBoard;
 
 public class Game {
     private final NetworkImplementer network;
@@ -8,6 +10,9 @@ public class Game {
     private final char X = 'X';
     private final char Y = 'Y';
     private char[][] moves;
+    private GameState gameState;
+    private VirtualGameBoard gameBoard;
+    
     
     public Game(int gm){
         moves = new char[SIZE][SIZE];
@@ -17,6 +22,11 @@ public class Game {
         else{
             network = new IntraSystem();
         }
+        
+        gameState = new GameState(true);
+        gameBoard = new VirtualGameBoard(5);
+        gameState.buildBoard(gameBoard);
+        
     }
     
     public void makeMove(int m){
