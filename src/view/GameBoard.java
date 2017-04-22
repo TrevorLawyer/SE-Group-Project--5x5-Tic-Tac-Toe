@@ -21,17 +21,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-/**
- *
- * @author micha
- */
 public class GameBoard extends JFrame{
     private final JMenuBar menuBar;
     private final JMenu optionsMenu, gameModeSubMenu, localSubMenu;
     public static JMenuItem onePlayerItem, twoPlayerItem, 
             networkItem, startGameItem;
-    public ArrayList<JButton> tiles;
-    private final int MAX_TILES = 25;
+    public static ArrayList<JButton> tiles;
+    private static final int MAX_TILES = 25;
     private Font buttonFont= new Font("SansSerif", Font.BOLD, 60);
     private String currentTurn;
     
@@ -96,7 +92,7 @@ public class GameBoard extends JFrame{
         c.add(gameArea);
                 
     }
-    public void startGame(){
+    public static void startGame(){
         for(int i = 0; i < MAX_TILES;i++){
             tiles.get(i).setEnabled(true);
         }

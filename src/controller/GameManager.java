@@ -13,10 +13,6 @@ import model.HumanPlayer;
 import model.Player;
 import model.SocketNetwork;
 
-/**
- *
- * @author micha
- */
 public class GameManager{
     private static int gameMode;
     public static Game game;

@@ -29,6 +29,7 @@ public class MenuListener implements ActionListener{
         } 
         else if(e.getSource() == GameBoard.startGameItem){
             GameManager.startGame();
+            GameBoard.startGame();
         }
     }
     
