@@ -12,22 +12,22 @@ import java.util.ArrayList;
  * @author TJaeckel
  */
 public class VirtualGameBoard {
-    private byte width;
-    private byte numOfSpaces;
-    private byte numOfBlanks;
-    private byte numOccupied;
+    private int width;
+    private int numOfSpaces;
+    private int numOfBlanks;
+    private int numOccupied;
     private ArrayList<Spot> board;
     private ArrayList<Spot> blankSpaces;
-    private ArrayList<Byte> columnStarts;
-    private ArrayList<Byte> rowStarts;
-    private ArrayList<Byte> diagonalStarts;
+    private ArrayList<Integer> columnStarts;
+    private ArrayList<Integer> rowStarts;
+    private ArrayList<Integer> diagonalStarts;
     
-    public VirtualGameBoard(byte width){
+    public VirtualGameBoard(int width){
         this.width = width;
-        numOfSpaces = numOfBlanks = (byte) (width * width);
+        numOfSpaces = numOfBlanks = (int) (width * width);
         board = new ArrayList(numOfSpaces);
         blankSpaces = new ArrayList(width);
-        for (byte i = 0; i < numOfSpaces; i++){
+        for (int i = 0; i < numOfSpaces; i++){
             board.add(new Spot(i));
             blankSpaces.add(new Spot(i));
         }
@@ -35,14 +35,14 @@ public class VirtualGameBoard {
     }
     
     public VirtualGameBoard(ArrayList<Spot> board, ArrayList<Spot> blankSpaces, 
-            byte width){
+            int width){
         
         this.width = width;
-        numOfSpaces = (byte) (width * width);
+        numOfSpaces = (int) (width * width);
         this.numOccupied = numOccupied;
         this.board = board;
         this.blankSpaces = blankSpaces;
-        for(byte i = 0; i < blankSpaces.size(); i++){
+        for(int i = 0; i < blankSpaces.size(); i++){
             if(blankSpaces.get(i) != null){
                 numOfBlanks ++;
             }else{
@@ -57,16 +57,16 @@ public class VirtualGameBoard {
         rowStarts = new ArrayList<>();
         diagonalStarts = new ArrayList<>();
         
-        for (byte i = 0; i < width; i++){
+        for (int i = 0; i < width; i++){
             columnStarts.add(i);
-            rowStarts.add((byte) (i * width));
+            rowStarts.add((int) (i * width));
         }
-        diagonalStarts.add((byte) 0);
-        diagonalStarts.add((byte) (width - 1));
+        diagonalStarts.add((int) 0);
+        diagonalStarts.add((int) (width - 1));
         
     }
     
-    public void makeMove(byte spot, boolean isMyTurn){
+    public void makeMove(int spot, boolean isMyTurn){
         board.get(spot).setTaken(true);
         board.get(spot).setxPlayer(isMyTurn);
         numOfBlanks--;
@@ -74,7 +74,7 @@ public class VirtualGameBoard {
         blankSpaces.set(spot, null);
     }
     
-    public Spot contentsOfSpot(byte spot){
+    public Spot contentsOfSpot(int spot){
         return board.get(spot);
     }
     
@@ -84,7 +84,7 @@ public class VirtualGameBoard {
         
         ArrayList<Spot> cloneBlankSpaces = new ArrayList<Spot>(blankSpaces.size());
         
-        for(byte i = 0; i < blankSpaces.size(); i++){
+        for(int i = 0; i < blankSpaces.size(); i++){
             if(blankSpaces.get(i) != null){
                 cloneBlankSpaces.add(i, new Spot(blankSpaces.get(i)));
             }else{
@@ -104,31 +104,31 @@ public class VirtualGameBoard {
         return blankSpaces;
     }
 
-    public byte getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public byte getNumOfSpaces() {
+    public int getNumOfSpaces() {
         return numOfSpaces;
     }
 
-    public byte getNumOfBlanks() {
+    public int getNumOfBlanks() {
         return numOfBlanks;
     }
 
-    public byte getNumOccupied() {
+    public int getNumOccupied() {
         return numOccupied;
     }
 
-    public ArrayList<Byte> getColumnStarts() {
+    public ArrayList<Integer> getColumnStarts() {
         return columnStarts;
     }
 
-    public ArrayList<Byte> getRowStarts() {
+    public ArrayList<Integer> getRowStarts() {
         return rowStarts;
     }
 
-    public ArrayList<Byte> getDiagonalStarts() {
+    public ArrayList<Integer> getDiagonalStarts() {
         return diagonalStarts;
     }
 

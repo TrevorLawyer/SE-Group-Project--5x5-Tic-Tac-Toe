@@ -32,16 +32,16 @@ public class GameManager{
         
         switch (gameMode) {        
             case GameMode.ONE_PLAYER:
-                player.add(new HumanPlayer());
-                player.add(new BotPlayer());
+                player.add(new HumanPlayer(true));
+                player.add(new BotPlayer(false));
                 break;
         
             case GameMode.TWO_PLAYER:
-                player.add(new HumanPlayer());
-                player.add(new HumanPlayer());
+                player.add(new HumanPlayer(true));
+                player.add(new HumanPlayer(false));
                 break;        
             case GameMode.NETWORK:
-                player.add(new BotPlayer());
+                player.add(new BotPlayer(false));
                 break;            
         }
     }

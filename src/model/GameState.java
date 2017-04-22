@@ -16,13 +16,13 @@ public class GameState {
     private int gameStateID;
     private VirtualGameBoard board;
     private GameWinner winner;
-    private byte minMovesRequiredToWin;
-    private boolean isMyTurn;
+    private int minMovesRequiredToWin;
+    private boolean isXTurn;
     private boolean hasWinner;
     private boolean isDraw;
     
-    public GameState(boolean isMyTurn){
-        this.isMyTurn = isMyTurn;
+    public GameState(boolean isXTurn){
+        this.isXTurn = isXTurn;
         gameCounter++;
         gameStateID = gameCounter;
         winner = new GameWinner();
@@ -31,7 +31,7 @@ public class GameState {
     public GameState(GameState gameState){
         gameCounter++;
         this.board = gameState.getBoard().cloneBoard();
-        this.isMyTurn = gameState.isIsMyTurn();
+        this.isXTurn = gameState.isIsXTurn();
         this.minMovesRequiredToWin = gameState.minMovesRequiredToWin;
         this.hasWinner = gameState.hasWinner;
         this.isDraw = gameState.isDraw;
@@ -43,14 +43,14 @@ public class GameState {
     
     public void buildBoard(VirtualGameBoard board){
         this.board = board;
-        minMovesRequiredToWin = (byte) ((2 * board.getWidth()) - 1);
+        minMovesRequiredToWin = (int) ((2 * board.getWidth()) - 1);
         checkForWin();
     }
     
-    public GameState makeMove(byte spot){
+    public GameState makeMove(int spot){
         GameState state = new GameState(this);
         
-        state.getBoard().makeMove(spot, state.isIsMyTurn());
+        state.getBoard().makeMove(spot, state.isIsXTurn());
         state.changeTurns();
         return state;
     }
@@ -63,11 +63,11 @@ public class GameState {
         return board.isBoardBlank();
     }
     
-    public byte finalSpot(){
+    public int finalSpot(){
         if (board.getNumOfBlanks() == 1){
             for (Spot  spot : board.getBlankSpaces()){
                 if (spot != null){
-                    return (byte) board.getBlankSpaces().indexOf(spot);
+                    return (int) board.getBlankSpaces().indexOf(spot);
                 }
             }
         }
@@ -101,21 +101,21 @@ public class GameState {
         }        
     }
     
-    public void opponentMove(byte Spot){
-        board.makeMove(Spot, isMyTurn);
+    public void opponentMove(int Spot){
+        board.makeMove(Spot, isXTurn);
         changeTurns();
 
     }
     
     private GameWinner checkWinningState(){
         
-        for (Byte startIndex : board.getRowStarts()){
+        for (int startIndex : board.getRowStarts()){
             if(winningRow(startIndex)){
                 return winner;
             }
         }
         
-        for (Byte startIndex : board.getColumnStarts())
+        for (int startIndex : board.getColumnStarts())
             if(winningColumn(startIndex)){
                 return winner;
             }
@@ -137,22 +137,22 @@ public class GameState {
         return new GameWinner();
     }
     
-    private boolean winningRow(byte startIndex){
+    private boolean winningRow(int startIndex){
         if(board.contentsOfSpot(startIndex).isTaken())
-            if(board.contentsOfSpot((byte) (startIndex + 1)).isTaken())
-                if(board.contentsOfSpot((byte) (startIndex + 2)).isTaken())
-                    if(board.contentsOfSpot((byte) (startIndex + 3)).isTaken())
-                        if(board.contentsOfSpot((byte) (startIndex + 4)).isTaken()){
-                            byte playerCount = 1;
+            if(board.contentsOfSpot((int) (startIndex + 1)).isTaken())
+                if(board.contentsOfSpot((int) (startIndex + 2)).isTaken())
+                    if(board.contentsOfSpot((int) (startIndex + 3)).isTaken())
+                        if(board.contentsOfSpot((int) (startIndex + 4)).isTaken()){
+                            int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isxPlayer()){
-                                for (byte i = 1; i < 5; i++){
-                                    if(board.contentsOfSpot((byte)(startIndex + i)).isxPlayer()){
+                                for (int i = 1; i < 5; i++){
+                                    if(board.contentsOfSpot((int)(startIndex + i)).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
                             }else{
-                                for (byte i = 1; i < 5; i++){
-                                    if(!board.contentsOfSpot((byte)(startIndex + i)).isxPlayer()){
+                                for (int i = 1; i < 5; i++){
+                                    if(!board.contentsOfSpot((int)(startIndex + i)).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
@@ -173,22 +173,22 @@ public class GameState {
     }
   
     
-    private boolean winningColumn(byte startIndex){
+    private boolean winningColumn(int startIndex){
         if(board.contentsOfSpot(startIndex).isTaken())
-            if(board.contentsOfSpot((byte) (startIndex + 5)).isTaken())
-                if(board.contentsOfSpot((byte) (startIndex + 10)).isTaken())
-                    if(board.contentsOfSpot((byte) (startIndex + 15)).isTaken())
-                        if(board.contentsOfSpot((byte) (startIndex + 20)).isTaken()){
-                            byte playerCount = 1;
+            if(board.contentsOfSpot((int) (startIndex + 5)).isTaken())
+                if(board.contentsOfSpot((int) (startIndex + 10)).isTaken())
+                    if(board.contentsOfSpot((int) (startIndex + 15)).isTaken())
+                        if(board.contentsOfSpot((int) (startIndex + 20)).isTaken()){
+                            int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isxPlayer()){
-                                for (byte i = 1; i < 5; i++){
-                                    if(board.contentsOfSpot((byte)(startIndex + (5*i))).isxPlayer()){
+                                for (int i = 1; i < 5; i++){
+                                    if(board.contentsOfSpot((int)(startIndex + (5*i))).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
                             }else{
-                                for (byte i = 1; i < 5; i++){
-                                    if(!board.contentsOfSpot((byte)(startIndex +(5*i))).isxPlayer()){
+                                for (int i = 1; i < 5; i++){
+                                    if(!board.contentsOfSpot((int)(startIndex +(5*i))).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
@@ -208,22 +208,22 @@ public class GameState {
         return false;
     }
     
-    private boolean winningLRDiag(byte startIndex){
+    private boolean winningLRDiag(int startIndex){
         if(board.contentsOfSpot(startIndex).isTaken())
-            if(board.contentsOfSpot((byte) (startIndex + 6)).isTaken())
-                if(board.contentsOfSpot((byte) (startIndex + 12)).isTaken())
-                    if(board.contentsOfSpot((byte) (startIndex + 18)).isTaken())
-                        if(board.contentsOfSpot((byte) (startIndex + 24)).isTaken()){
-                            byte playerCount = 1;
+            if(board.contentsOfSpot((int) (startIndex + 6)).isTaken())
+                if(board.contentsOfSpot((int) (startIndex + 12)).isTaken())
+                    if(board.contentsOfSpot((int) (startIndex + 18)).isTaken())
+                        if(board.contentsOfSpot((int) (startIndex + 24)).isTaken()){
+                            int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isxPlayer()){
-                                for (byte i = 1; i < board.getNumOfSpaces(); i =(byte) (i + 6)){
-                                    if(board.contentsOfSpot((byte)(startIndex + (i))).isxPlayer()){
+                                for (int i = 1; i < board.getNumOfSpaces(); i =(int) (i + 6)){
+                                    if(board.contentsOfSpot((int)(startIndex + (i))).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
                             }else{
-                                for (byte i = 1; i < board.getNumOfSpaces(); i =(byte) (i + 6)){
-                                    if(!board.contentsOfSpot((byte)(startIndex +(i))).isxPlayer()){
+                                for (int i = 1; i < board.getNumOfSpaces(); i =(int) (i + 6)){
+                                    if(!board.contentsOfSpot((int)(startIndex +(i))).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
@@ -242,22 +242,22 @@ public class GameState {
                         }
         return false;
     }
-        private boolean winningRLDiag(byte startIndex){
+        private boolean winningRLDiag(int startIndex){
         if(board.contentsOfSpot(startIndex).isTaken())
-            if(board.contentsOfSpot((byte) (startIndex + 4)).isTaken())
-                if(board.contentsOfSpot((byte) (startIndex + 8)).isTaken())
-                    if(board.contentsOfSpot((byte) (startIndex + 12)).isTaken())
-                        if(board.contentsOfSpot((byte) (startIndex + 16)).isTaken()){
-                            byte playerCount = 1;
+            if(board.contentsOfSpot((int) (startIndex + 4)).isTaken())
+                if(board.contentsOfSpot((int) (startIndex + 8)).isTaken())
+                    if(board.contentsOfSpot((int) (startIndex + 12)).isTaken())
+                        if(board.contentsOfSpot((int) (startIndex + 16)).isTaken()){
+                            int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isxPlayer()){
-                                for (byte i = 1; i < 21; i =(byte) (i + 4)){
-                                    if(board.contentsOfSpot((byte)(startIndex + (i))).isxPlayer()){
+                                for (int i = 1; i < 21; i =(int) (i + 4)){
+                                    if(board.contentsOfSpot((int)(startIndex + (i))).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
                             }else{
-                                for (byte i = 1; i < 21; i =(byte) (i + 4)){
-                                    if(!board.contentsOfSpot((byte)(startIndex +(i))).isxPlayer()){
+                                for (int i = 1; i < 21; i =(int) (i + 4)){
+                                    if(!board.contentsOfSpot((int)(startIndex +(i))).isxPlayer()){
                                         playerCount++;
                                     }
                                 }
@@ -285,16 +285,16 @@ public class GameState {
         return winner;
     }
 
-    public byte getMinMovesRequiredToWin() {
+    public int getMinMovesRequiredToWin() {
         return minMovesRequiredToWin;
     }
 
-    public boolean isIsMyTurn() {
-        return isMyTurn;
+    public boolean isIsXTurn() {
+        return isXTurn;
     }
     
     public void changeTurns(){
-        isMyTurn = !isMyTurn;
+        isXTurn = !isXTurn;
     }
 
     public int getGameStateID() {

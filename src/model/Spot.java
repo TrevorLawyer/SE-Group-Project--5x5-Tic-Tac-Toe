@@ -12,9 +12,9 @@ package model;
 public class Spot {
     private boolean taken;
     private boolean xPlayer;
-    private byte index;
+    private int index;
     
-    public Spot(byte index){
+    public Spot(int index){
         taken = false;
         xPlayer = false;
         this.index = index;
@@ -41,7 +41,7 @@ public class Spot {
         this.xPlayer = xPlayer;
     }
 
-    public byte getIndex() {
+    public int getIndex() {
         return index;
     }
     

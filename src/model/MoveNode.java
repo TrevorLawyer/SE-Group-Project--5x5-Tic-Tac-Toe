@@ -11,7 +11,7 @@ package model;
  * @author TJaeckel
  */
 public class MoveNode{
-    private byte spot;
+    private int spot;
     private int score;
     private final int NULL_SCORE = 0;
 
@@ -20,12 +20,12 @@ public class MoveNode{
         score = NULL_SCORE;
     }
     
-    public MoveNode(byte spot){
+    public MoveNode(int spot){
         this.spot = spot;
         score = NULL_SCORE;
     }
     
-    public MoveNode(byte spot, int score){
+    public MoveNode(int spot, int score){
         this.spot = spot;
         this.score = score;
     }
@@ -35,11 +35,11 @@ public class MoveNode{
         this.spot = move.getSpot();
     }
     
-    public byte getSpot() {
+    public int getSpot() {
         return spot;
     }
 
-    public void setSpot(byte spot) {
+    public void setSpot(int spot) {
         this.spot = spot;
     }
 

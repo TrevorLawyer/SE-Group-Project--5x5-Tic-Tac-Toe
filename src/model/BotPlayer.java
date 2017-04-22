@@ -15,20 +15,25 @@ public class BotPlayer extends Player{
     private final int INITIAL_DEPTH = 0;
     GameState gameState;
     int baseScore;
-    byte currentMoveChoice;
+    int currentMoveChoice;
+
+    public BotPlayer(boolean isXPlayer) {
+        super(isXPlayer);
+    }
     
+    @Override
     public GameState takeTurn(GameState gameState){
         if(gameState.gameOver()) return gameState;
         this.gameState = new GameState(gameState);
-        byte move = chooseMove();
+        int move = chooseMove();
         System.out.println("Move Made: " + move);
         this.gameState = gameState.makeMove(move);
         return this.gameState;
     }
     
-    private byte chooseMove(){
+    private int chooseMove(){
         if(gameState.isBoardUnplayed()){
-            return (byte) 0;
+            return (int) 0;
         }
         if(gameState.isFinalMove()){
             return gameState.finalSpot();
@@ -36,7 +41,7 @@ public class BotPlayer extends Player{
         return bestPossibleMove();
     }
     
-    private byte bestPossibleMove(){
+    private int bestPossibleMove(){
         baseScore = gameState.availableMoves().size() + 1;
         
         int bound = baseScore + 1;
@@ -45,7 +50,7 @@ public class BotPlayer extends Player{
     }
     
    
-    private byte findMove(GameState gameState){
+    private int findMove(GameState gameState){
         ArrayList<MoveNode> moves = new ArrayList();
         
         for (Spot spot : gameState.getBoard().getBoard()){
@@ -79,7 +84,7 @@ public class BotPlayer extends Player{
         
         
 
-        for(Byte rowIndex : gameState.getBoard().getRowStarts()){
+        for(int rowIndex : gameState.getBoard().getRowStarts()){
             hasX = false;
             scoreToAdd = 0;
             for(int i = rowIndex; i < (rowIndex + 5); i++){
@@ -104,7 +109,7 @@ public class BotPlayer extends Player{
             }
         }
         scoreToAdd = 0;
-        for(Byte columnIndex : gameState.getBoard().getColumnStarts()){
+        for(int columnIndex : gameState.getBoard().getColumnStarts()){
             hasX = false;
             scoreToAdd = 0;
             for(int i = columnIndex; i < columnIndex + 21; i+= 5){
@@ -180,7 +185,7 @@ public class BotPlayer extends Player{
         
         
 
-        for(Byte rowIndex : gameState.getBoard().getRowStarts()){
+        for(int rowIndex : gameState.getBoard().getRowStarts()){
             scoreToAdd = 0;
             for(int i = rowIndex; i < (rowIndex + 5); i++){
                 if(gameState.getBoard().getBoard().get(i).isxPlayer()){
@@ -194,7 +199,7 @@ public class BotPlayer extends Player{
             }
         }
         
-        for(Byte columnIndex : gameState.getBoard().getColumnStarts()){
+        for(int columnIndex : gameState.getBoard().getColumnStarts()){
             scoreToAdd = 0;
             for(int i = columnIndex; i < columnIndex + 21; i+= 5){
                 if(gameState.getBoard().getBoard().get(i).isxPlayer()){
@@ -235,9 +240,9 @@ public class BotPlayer extends Player{
         }
     }
     
-    private byte findHighestScore(ArrayList<MoveNode> moves){
+    private int findHighestScore(ArrayList<MoveNode> moves){
         int highestScore = -1;
-        byte bestSpot = -1;
+        int bestSpot = -1;
         
         for (MoveNode move : moves){
             if(move.getScore() > highestScore){
