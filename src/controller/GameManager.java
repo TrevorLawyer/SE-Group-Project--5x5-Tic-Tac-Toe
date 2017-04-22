@@ -11,6 +11,7 @@ import model.Game;
 import model.GameMode;
 import model.HumanPlayer;
 import model.Player;
+import model.SocketNetwork;
 
 /**
  *
@@ -19,14 +20,15 @@ import model.Player;
 public class GameManager{
     private static int gameMode;
     public static Game game;
-    public static ArrayList<Player> player;                   
+    public static ArrayList<Player> player;   
+    public static NetworkImplementer network;
     
     public static void selectGameMode(int gm){
         gameMode = gm;
     }
     
     public static void connectToNetwork(){
-        
+        network= new SocketNetwork();
     }
     
     public static void startGame(){        
