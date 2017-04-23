@@ -21,7 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-public class GameBoard extends JFrame{
+public class GameBoard extends JFrame{    
     private final JMenuBar menuBar;
     private final JMenu optionsMenu, gameModeSubMenu, localSubMenu;
     public static JMenuItem onePlayerItem, twoPlayerItem, 
@@ -97,6 +97,9 @@ public class GameBoard extends JFrame{
             tiles.get(i).setEnabled(true);
         }
     }
+    public static void showGameResults() {
+        //display result
+    }
     public static void displayMove(int m){
         tiles.get(m).setText(currentTurn);
         tiles.get(m).setEnabled(false);
@@ -114,7 +117,6 @@ public class GameBoard extends JFrame{
             JButton source = (JButton)e.getSource();
             for (int i = 0; i < MAX_TILES; i++){
                 if(source == tiles.get(i)){
-                    //displayMove(i);
                     GameManager.selectedMove = i;
                     GameManager.makeMove();
                 }
