@@ -29,7 +29,7 @@ public class GameBoard extends JFrame{
     public static ArrayList<JButton> tiles;
     private static final int MAX_TILES = 25;
     private Font buttonFont= new Font("SansSerif", Font.BOLD, 60);
-    private String currentTurn;
+    private static String currentTurn;
     
     public GameBoard(){
         Container c = getContentPane();
@@ -97,7 +97,7 @@ public class GameBoard extends JFrame{
             tiles.get(i).setEnabled(true);
         }
     }
-    public void displayMove(int m){
+    public static void displayMove(int m){
         tiles.get(m).setText(currentTurn);
         tiles.get(m).setEnabled(false);
         if (currentTurn.equals("X")){
@@ -107,12 +107,6 @@ public class GameBoard extends JFrame{
             currentTurn = "X";
         }
     }
-    public static void opponentMoveDisplay(){
-        
-    }
-    public static void showGameResults(){
-    
-    }
     public class ButtonListener implements ActionListener {
 
     @Override
@@ -121,6 +115,8 @@ public class GameBoard extends JFrame{
             for (int i = 0; i < MAX_TILES; i++){
                 if(source == tiles.get(i)){
                     displayMove(i);
+                    GameManager.selectedMove = i;
+                    GameManager.makeMove();
                 }
             }
         }

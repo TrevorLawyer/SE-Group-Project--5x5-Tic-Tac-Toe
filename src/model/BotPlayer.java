@@ -5,6 +5,7 @@
  */
 package model;
 
+import controller.GameManager;
 import controller.GameState;
 import controller.MoveNode;
 import controller.Spot;
@@ -31,6 +32,7 @@ public class BotPlayer extends Player{
         int move = chooseMove();
         System.out.println("Move Made: " + move);
         this.gameState = gameState.makeBotMove(move, true);
+        GameManager.selectedMove = move;
         return this.gameState;
     }
     

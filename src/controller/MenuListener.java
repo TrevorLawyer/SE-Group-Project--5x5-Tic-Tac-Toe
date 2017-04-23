@@ -24,7 +24,7 @@ public class MenuListener implements ActionListener{
         }
         else if(e.getSource() == GameBoard.networkItem){
             GameManager.selectGameMode(GameMode.NETWORK);
-            GameManager.connectToNetwork();
+            //GameManager.connectToNetwork();
             GameBoard.startGameItem.setEnabled(true);
         } 
         else if(e.getSource() == GameBoard.startGameItem){

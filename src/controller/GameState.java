@@ -6,13 +6,14 @@
 package controller;
 
 import java.util.ArrayList;
+import model.SocketNetwork;
 
 /**
  *
  * @author TJaeckel
  */
 public class GameState {
-    static int gameCounter;
+    static int gameCounter;    
     private int gameStateID;
     private VirtualGameBoard board;
     private GameWinner winner;
@@ -307,7 +308,5 @@ public class GameState {
 
     public int getGameStateID() {
         return gameStateID;
-    }
-    
-    
+    }        
 }
