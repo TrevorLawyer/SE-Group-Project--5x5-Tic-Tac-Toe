@@ -114,7 +114,7 @@ public class GameBoard extends JFrame{
             JButton source = (JButton)e.getSource();
             for (int i = 0; i < MAX_TILES; i++){
                 if(source == tiles.get(i)){
-                    //displayMove(i);
+                    displayMove(i);
                     GameManager.selectedMove = i;
                     GameManager.makeMove();
                 }
