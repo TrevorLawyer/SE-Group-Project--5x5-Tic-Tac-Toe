@@ -71,7 +71,9 @@ public class GameManager{
     public static void makeMove(){
         if(gameMode == GameMode.ONE_PLAYER){
             gameState = playerOne.takeTurn(gameState, selectedMove);
+            GameBoard.displayMove(selectedMove);
             gameState = playerTwo.takeTurn(gameState, selectedMove);
+            GameBoard.displayMove(selectedMove);
         }
         else if(gameMode == GameMode.TWO_PLAYER){
             if(turn == "p1"){
@@ -82,6 +84,7 @@ public class GameManager{
                 gameState = playerTwo.takeTurn(gameState, selectedMove);
                 turn = "p1";
             }
+            GameBoard.displayMove(selectedMove);
         }                
         else{
             gameState = playerOne.takeTurn(gameState, selectedMove);
@@ -90,10 +93,13 @@ public class GameManager{
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
+            GameBoard.displayMove(selectedMove);
             network.sendMove(selectedMove);
-            gameState.opponentMove(receiveMoveOverNetwork());
-             
+            int selectedMove = receiveMoveOverNetwork();
+            gameState.opponentMove(selectedMove);
+            GameBoard.displayMove(selectedMove);
+            
         }                
-        GameBoard.displayMove(selectedMove);
+        
     }
 }
