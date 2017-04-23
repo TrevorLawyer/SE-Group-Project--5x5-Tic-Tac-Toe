@@ -137,7 +137,7 @@ public class GameState {
             return winner;
         }
         
-        if(board.getNumOfBlanks() == 0 && winner.getGameWinner() == Winner.NONE){
+        if(board.getNumOfBlanks() == 0 && (winner.getGameWinner() == Winner.NONE && !isDraw)){
             isDraw = true;
             winner.setGameWinner(Winner.TIE);
             return winner;
@@ -168,11 +168,19 @@ public class GameState {
                             }
                             if(playerCount == 5){
                                 if(board.contentsOfSpot(startIndex).isMe()){
-                                    winner.setGameWinner(Winner.X);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }else{
-                                    winner.setGameWinner(Winner.O);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }
@@ -204,11 +212,19 @@ public class GameState {
                             }
                             if(playerCount == 5){
                                 if(board.contentsOfSpot(startIndex).isMe()){
-                                    winner.setGameWinner(Winner.X);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }else{
-                                    winner.setGameWinner(Winner.O);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }
@@ -239,11 +255,19 @@ public class GameState {
                             }
                             if(playerCount == 5){
                                 if(board.contentsOfSpot(startIndex).isMe()){
-                                    winner.setGameWinner(Winner.X);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }else{
-                                    winner.setGameWinner(Winner.O);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }
@@ -259,7 +283,7 @@ public class GameState {
                         if(board.contentsOfSpot((int) (startIndex + 16)).isTaken()){
                             int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isMe()){
-                                for (int i = 1; i < 21; i =(int) (i + 4)){
+                                for (int i = 4; i < 21; i =(int) (i + 4)){
                                     if(board.contentsOfSpot((int)(startIndex + (i))).isMe()){
                                         playerCount++;
                                     }
@@ -273,11 +297,19 @@ public class GameState {
                             }
                             if(playerCount == 5){
                                 if(board.contentsOfSpot(startIndex).isMe()){
-                                    winner.setGameWinner(Winner.X);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }else{
-                                    winner.setGameWinner(Winner.O);
+                                    if(board.contentsOfSpot(startIndex).isX()){
+                                        winner.setGameWinner(Winner.X);
+                                    }else{
+                                        winner.setGameWinner(Winner.O);
+                                    }
                                     hasWinner = true;
                                     return true;
                                 }

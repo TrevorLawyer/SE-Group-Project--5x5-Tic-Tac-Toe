@@ -63,14 +63,14 @@ public class BotPlayer extends Player{
             
         }
 
-        scoreOnOs(moves);
+        scoreOnOpponent(moves);
         String moveBoard = "";
         for (MoveNode move : moves){
             moveBoard += move.toString();
         }
         System.out.print(moveBoard);
         System.out.println();
-        scoreOnXs(moves);
+        scoreOnMe(moves);
         moveBoard = "";
         for (MoveNode move : moves){
             moveBoard += move.toString();
@@ -81,7 +81,7 @@ public class BotPlayer extends Player{
         return findHighestScore(moves);
     }
     
-    private void scoreOnOs( ArrayList<MoveNode> moves){
+    private void scoreOnOpponent( ArrayList<MoveNode> moves){
         int[] lrDiagonal = new int[]{0,6,12,18,24};
         int[] rlDiagonal = new int[]{4,8,12,16,20};
         int scoreToAdd = 0;
@@ -106,7 +106,7 @@ public class BotPlayer extends Player{
             if(iHaveSpot){
                 scoreToAdd = 0;
             }
-            
+            //if(scoreToAdd > 3) scoreToAdd *= 2;
             for(int i = rowIndex; i < (rowIndex + 5); i++){
                 if(!gameState.getBoard().getBoard().get(i).isTaken()){
                     moves.get(i).addScore(scoreToAdd);
@@ -129,7 +129,7 @@ public class BotPlayer extends Player{
             if(iHaveSpot){
                 scoreToAdd = 0;
             }
-            
+            //if(scoreToAdd > 3) scoreToAdd *= 2;
             for(int i = columnIndex; i < columnIndex + 21; i+= 5){
                 if(!gameState.getBoard().getBoard().get(i).isTaken()){
                     moves.get(i).addScore(scoreToAdd);
@@ -152,7 +152,7 @@ public class BotPlayer extends Player{
         if(iHaveSpot){
             scoreToAdd = 0;
         }
-        
+        //if(scoreToAdd > 3) scoreToAdd *= 2;
         for (int spotIndex : lrDiagonal){
             if(!gameState.getBoard().getBoard().get(spotIndex).isTaken()){
                 moves.get(spotIndex).addScore(scoreToAdd);
@@ -162,6 +162,7 @@ public class BotPlayer extends Player{
 
         //Check rlDiagonal
         scoreToAdd = 0;
+        iHaveSpot = false;
         for (int spotIndex : rlDiagonal){
             if(!gameState.getBoard().getBoard().get(spotIndex).isMe() && gameState.getBoard().getBoard().get(spotIndex).isTaken()){
                     scoreToAdd++;
@@ -174,6 +175,7 @@ public class BotPlayer extends Player{
         if(iHaveSpot){
             scoreToAdd = 0;
         }
+        //if(scoreToAdd > 3) scoreToAdd *= 2;
         for (int spotIndex : rlDiagonal){
             if(!gameState.getBoard().getBoard().get(spotIndex).isTaken()){
                 moves.get(spotIndex).addScore(scoreToAdd);
@@ -183,7 +185,7 @@ public class BotPlayer extends Player{
 
     }
     
-    private void scoreOnXs(ArrayList<MoveNode> moves){
+    private void scoreOnMe(ArrayList<MoveNode> moves){
         int[] lrDiagonal = new int[]{0,6,12,18,24};
         int[] rlDiagonal = new int[]{4,8,12,16,20};
         int scoreToAdd;
