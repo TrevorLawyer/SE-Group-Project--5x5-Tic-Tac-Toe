@@ -60,20 +60,16 @@ public class GameManager{
         if(gameMode == GameMode.NETWORK){
            makeMove();
         }
-    }    
-    
-    private static int receiveMoveOverNetwork(){
-        int m = network.getMove();   
-        GameBoard.displayMove(m);
-        return m;
-    }
+    }         
     
     public static void makeMove(){
         if(gameMode == GameMode.ONE_PLAYER){
             gameState = playerOne.takeTurn(gameState, selectedMove);
             GameBoard.displayMove(selectedMove);
+            if(gameState.gameOver()) GameBoard.showGameResults();              
             gameState = playerTwo.takeTurn(gameState, selectedMove);
             GameBoard.displayMove(selectedMove);
+            if(gameState.gameOver()) GameBoard.showGameResults();            
         }
         else if(gameMode == GameMode.TWO_PLAYER){
             if(turn == "p1"){
@@ -85,20 +81,30 @@ public class GameManager{
                 turn = "p1";
             }
             GameBoard.displayMove(selectedMove);
+            if(gameState.gameOver()) GameBoard.showGameResults();  
         }                
         else{
-            gameState = playerOne.takeTurn(gameState, selectedMove);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
+            while(true){
+                long t1 = System.currentTimeMillis();
+                gameState = playerOne.takeTurn(gameState, selectedMove);
+                long t2 = System.currentTimeMillis();
+                
+                if(t2 - t1 < 5000){                
+                    try {
+                        Thread.sleep(5000 - (t2 - t1));
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                GameBoard.displayMove(selectedMove);
+                network.sendMove(selectedMove);
+                if (gameState.gameOver()) break;
+                selectedMove = network.getMove();
+                gameState.opponentMove(selectedMove);
+                GameBoard.displayMove(selectedMove);
+                if (gameState.gameOver()) break;
             }
-            GameBoard.displayMove(selectedMove);
-            network.sendMove(selectedMove);
-            int selectedMove = receiveMoveOverNetwork();
-            gameState.opponentMove(selectedMove);
-            GameBoard.displayMove(selectedMove);
-            
+            GameBoard.showGameResults();            
         }                
         
     }
