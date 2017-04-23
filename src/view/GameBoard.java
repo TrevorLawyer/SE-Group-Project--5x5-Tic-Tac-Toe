@@ -20,6 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import model.Player;
 
 public class GameBoard extends JFrame{    
     private final JMenuBar menuBar;
@@ -36,7 +37,7 @@ public class GameBoard extends JFrame{
         
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
         
-        currentTurn = "O";
+        currentTurn = "X";
         //create menu bar
         menuBar = new JMenuBar();
         
@@ -100,15 +101,17 @@ public class GameBoard extends JFrame{
     public static void showGameResults() {
         //display result
     }
-    public static void displayMove(int m){
-        tiles.get(m).setText(currentTurn);
-        tiles.get(m).setEnabled(false);
-        if (currentTurn.equals("X")){
-            currentTurn = "O";
-        }
-        else{
+    public static void displayMove(int m, boolean playerIsX){
+        if (playerIsX){
             currentTurn = "X";
         }
+        else{
+            currentTurn = "O";
+        }
+        
+        tiles.get(m).setText(currentTurn);
+        tiles.get(m).setEnabled(false);
+
     }
     public class ButtonListener implements ActionListener {
 

@@ -27,7 +27,9 @@ public class BotPlayer extends Player{
     
     @Override
     public GameState takeTurn(GameState gameState, int selectedSpot){
-        if(gameState.gameOver()) return gameState;
+        if(gameState.gameOver()) {
+            return gameState;
+        }
         this.gameState = new GameState(gameState);
         int move = chooseMove();
         System.out.println("Move Made: " + move);

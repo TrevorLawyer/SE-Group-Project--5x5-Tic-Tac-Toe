@@ -46,8 +46,8 @@ public class GameManager{
         
         switch (gameMode) {        
             case GameMode.ONE_PLAYER:
-                playerOne = new HumanPlayer(false);
-                playerTwo = new BotPlayer(true);
+                playerOne = new HumanPlayer(true);
+                playerTwo = new BotPlayer(false);
                 break;        
             case GameMode.TWO_PLAYER:
                 playerOne = new HumanPlayer(false);
@@ -65,22 +65,28 @@ public class GameManager{
     public static void makeMove(){
         if(gameMode == GameMode.ONE_PLAYER){
             gameState = playerOne.takeTurn(gameState, selectedMove);
-            GameBoard.displayMove(selectedMove);
+            GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
             if(gameState.gameOver()) GameBoard.showGameResults();              
             gameState = playerTwo.takeTurn(gameState, selectedMove);
-            GameBoard.displayMove(selectedMove);
-            if(gameState.gameOver()) GameBoard.showGameResults();            
+            GameBoard.displayMove(selectedMove, playerTwo.isIsXPlayer());
+            if(gameState.gameOver()) {
+                System.out.println(gameState.getWinner().getGameWinner());
+                GameBoard.showGameResults();
+            }            
         }
         else if(gameMode == GameMode.TWO_PLAYER){
+            Player currentPlayer;
             if(turn == "p1"){
                 gameState = playerOne.takeTurn(gameState, selectedMove);
                 turn = "p2";
+                currentPlayer = playerOne;
             }
             else{
                 gameState = playerTwo.takeTurn(gameState, selectedMove);
                 turn = "p1";
+                currentPlayer = playerTwo;
             }
-            GameBoard.displayMove(selectedMove);
+            GameBoard.displayMove(selectedMove, currentPlayer.isIsXPlayer());
             if(gameState.gameOver()) GameBoard.showGameResults();  
         }                
         else{
@@ -96,12 +102,12 @@ public class GameManager{
                         Thread.currentThread().interrupt();
                     }
                 }
-                GameBoard.displayMove(selectedMove);
+                GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
                 network.sendMove(selectedMove);
                 if (gameState.gameOver()) break;
                 selectedMove = network.getMove();
                 gameState.opponentMove(selectedMove);
-                GameBoard.displayMove(selectedMove);
+                GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
                 if (gameState.gameOver()) break;
             }
             GameBoard.showGameResults();            

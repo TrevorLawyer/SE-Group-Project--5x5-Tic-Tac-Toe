@@ -155,13 +155,13 @@ public class GameState {
                             int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isMe()){
                                 for (int i = 1; i < 5; i++){
-                                    if(board.contentsOfSpot((int)(startIndex + i)).isMe()){
+                                    if(board.contentsOfSpot((startIndex + i)).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
                                 for (int i = 1; i < 5; i++){
-                                    if(!board.contentsOfSpot((int)(startIndex + i)).isMe()){
+                                    if(!board.contentsOfSpot((startIndex + i)).isMe()){
                                         playerCount++;
                                     }
                                 }
@@ -239,15 +239,15 @@ public class GameState {
                 if(board.contentsOfSpot((int) (startIndex + 12)).isTaken())
                     if(board.contentsOfSpot((int) (startIndex + 18)).isTaken())
                         if(board.contentsOfSpot((int) (startIndex + 24)).isTaken()){
-                            int playerCount = 1;
+                            int playerCount = 0; 
                             if(board.contentsOfSpot(startIndex).isMe()){
-                                for (int i = 1; i < board.getNumOfSpaces(); i =(int) (i + 6)){
+                                for (int i = startIndex; i < board.getNumOfSpaces(); i =(int) (i + 6)){
                                     if(board.contentsOfSpot((int)(startIndex + (i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
-                                for (int i = 1; i < board.getNumOfSpaces(); i =(int) (i + 6)){
+                                for (int i = startIndex; i < board.getNumOfSpaces(); i =(int) (i + 6)){
                                     if(!board.contentsOfSpot((int)(startIndex +(i))).isMe()){
                                         playerCount++;
                                     }
@@ -283,13 +283,13 @@ public class GameState {
                         if(board.contentsOfSpot((int) (startIndex + 16)).isTaken()){
                             int playerCount = 1;
                             if(board.contentsOfSpot(startIndex).isMe()){
-                                for (int i = 4; i < 21; i =(int) (i + 4)){
+                                for (int i = startIndex; i < 17; i =(int) (i + 4)){
                                     if(board.contentsOfSpot((int)(startIndex + (i))).isMe()){
                                         playerCount++;
                                     }
                                 }
                             }else{
-                                for (int i = 1; i < 21; i =(int) (i + 4)){
+                                for (int i = startIndex; i < 17; i =(int) (i + 4)){
                                     if(!board.contentsOfSpot((int)(startIndex +(i))).isMe()){
                                         playerCount++;
                                     }
