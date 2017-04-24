@@ -7,6 +7,7 @@ package view;
 
 import controller.GameManager;
 import controller.MenuListener;
+import controller.Winner;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import model.Player;
@@ -93,13 +95,35 @@ public class GameBoard extends JFrame{
         c.add(gameArea);
                 
     }
-    public static void startGame(){
+    public static void startHumanGame(){
         for(int i = 0; i < MAX_TILES;i++){
             tiles.get(i).setEnabled(true);
         }
     }
-    public static void showGameResults() {
-        //display result
+    
+    //Wipes the board and returns it to default un-clickable state. Call before startHumanGame();
+    public static void resetBoard(){
+        for (JButton i : tiles){
+            i.setText("");
+            i.setEnabled(false);
+        }
+    }
+    
+    public static void showGameResults(Winner winner) {
+        String winMessage;
+        if (winner.name().equals("TIE")){
+            winMessage = "The Game Ended in a Tie!";
+        }
+        else if(winner.name().equals("X")){
+            winMessage = "X Player is the Winner!";
+        }
+        else if(winner.name().equals("O")){
+            winMessage = "O Player is the Winner!";
+        }
+        else{
+            winMessage = "Something went wrong and no one Won!";
+        }
+        JOptionPane.showMessageDialog(null, winMessage);
     }
     public static void displayMove(int m, boolean playerIsX){
         if (playerIsX){
