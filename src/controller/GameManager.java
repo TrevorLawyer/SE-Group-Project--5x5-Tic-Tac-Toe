@@ -54,7 +54,7 @@ public class GameManager{
                 playerTwo = new HumanPlayer(true);
                 break;        
             case GameMode.NETWORK:
-                playerOne = new BotPlayer(false);
+                playerOne = new BotPlayer(false);              
                 break;            
         }        
         if(gameMode == GameMode.NETWORK){
@@ -66,12 +66,12 @@ public class GameManager{
         if(gameMode == GameMode.ONE_PLAYER){
             gameState = playerOne.takeTurn(gameState, selectedMove);
             GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
-            if(gameState.gameOver()) GameBoard.showGameResults();              
+            if(gameState.gameOver()) GameBoard.showGameResults(gameState.getWinner().getGameWinner());              
             gameState = playerTwo.takeTurn(gameState, selectedMove);
             GameBoard.displayMove(selectedMove, playerTwo.isIsXPlayer());
             if(gameState.gameOver()) {
                 System.out.println(gameState.getWinner().getGameWinner());
-                GameBoard.showGameResults();
+                GameBoard.showGameResults(gameState.getWinner().getGameWinner());
             }            
         }
         else if(gameMode == GameMode.TWO_PLAYER){
@@ -87,7 +87,7 @@ public class GameManager{
                 currentPlayer = playerTwo;
             }
             GameBoard.displayMove(selectedMove, currentPlayer.isIsXPlayer());
-            if(gameState.gameOver()) GameBoard.showGameResults();  
+            if(gameState.gameOver()) GameBoard.showGameResults(gameState.getWinner().getGameWinner());  
         }                
         else{
             while(true){
@@ -110,7 +110,7 @@ public class GameManager{
                 GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
                 if (gameState.gameOver()) break;
             }
-            GameBoard.showGameResults();            
+            GameBoard.showGameResults(gameState.getWinner().getGameWinner());            
         }                
         
     }
