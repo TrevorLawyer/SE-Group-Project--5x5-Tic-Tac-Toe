@@ -40,19 +40,31 @@ public class SocketNetwork extends NetworkImplementer{
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
+                ServerSocket serverSocket = null;
                 try {
-                    ServerSocket serverSocket = new ServerSocket(HOST_PORT);
+                    serverSocket = new ServerSocket(HOST_PORT);
                     System.out.println("Waiting for clients to connect...");
-                    while (true) {
-                        Socket clientSocket = serverSocket.accept();
+                } catch (IOException e) {
+                    System.err.println("Couldn't create socket");
+                    e.printStackTrace();
+                }    
+                while (true) {
+                        Socket clientSocket = null;
+                    try {
+                        clientSocket = serverSocket.accept();
+                    } catch (IOException ex) {
+                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                         System.out.println("External connection to socket server");
+                    try {
                         in = new DataInputStream(clientSocket.getInputStream());
+                    } catch (IOException ex) {
+                        System.out.println("Could not Create input sream");
+                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                         
                     }
-                } catch (IOException e) {
-                    System.err.println("Unable to process client request");
-                    e.printStackTrace();
-                }
+                
             }
         };
         Thread serverThread = new Thread(serverTask);
@@ -66,12 +78,14 @@ public class SocketNetwork extends NetworkImplementer{
                 while(!connectAttempted){
                     
                 }
+                client = null;
                 try{
                     client = new Socket(hostAddress, HOST_PORT);
                     System.out.println("Connected to external socket server");
                     out = new DataOutputStream(client.getOutputStream());          
                 }
-                    catch(IOException e){         
+                    catch(IOException e){    
+                        System.out.println("Did not connect to external");
                 }
             }
             
