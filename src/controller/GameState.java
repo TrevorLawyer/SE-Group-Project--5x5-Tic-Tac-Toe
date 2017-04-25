@@ -72,6 +72,10 @@ public class GameState {
         return board.isBoardBlank();
     }
     
+    public boolean isSpotAvailable(int spot){
+        return board.getBlankSpaces().get(spot) == null;
+    }
+    
     public int finalSpot(){
         if (board.getNumOfBlanks() == 1){
             for (Spot  spot : board.getBlankSpaces()){
