@@ -1,6 +1,7 @@
 
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,19 +39,19 @@ public class NetworkPopUp {
         popUp.setResizable(false);
         popUp.setLocationByPlatform(true);
         popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        popUp.setLayout(new BorderLayout());
         connectAttempted = false;
         JPanel popUpPanel = new JPanel();
         iNetAddressField = new JTextField(15);
         portNumberField  = new JTextField(15);
         
-        popUpPanel.add(new JLabel("Enter Peer Information:"));
-        popUpPanel.add(new JLabel(""));
+        popUpPanel.add(new JLabel("Enter Peer Information:"), "North");
+        
         popUpPanel.add(new JLabel("IP  Address:"));
         popUpPanel.add(iNetAddressField);
         
-        popUpPanel.add(new JLabel("Port Number:"));
-        popUpPanel.add(portNumberField);
+//        popUpPanel.add(new JLabel("Port Number:"));
+//        popUpPanel.add(portNumberField);
         
         popUpPanel.add(Box.createHorizontalStrut(10));
         ButtonListener buttonListener = new ButtonListener();
@@ -67,7 +68,7 @@ public class NetworkPopUp {
     public boolean getConnectAttempted(){
         return connectAttempted;
     }
-    
+     
     
     public class ButtonListener implements ActionListener {
 
@@ -80,11 +81,13 @@ public class NetworkPopUp {
                     address = InetAddress.getByName(iNetAddressField.getText());
                 } catch (UnknownHostException ex) {
                     Logger.getLogger(NetworkPopUp.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Invalid IP Address. Could not convert to Inetaddress97");
                 }
                 connectAttempted = true;
                 network.hostAddress = address;
                 network.portNumber = port;
                 network.connectAttempted = connectAttempted;
+                popUp.setVisible(false);
             } 
             else{
                 popUp.setVisible(false);
