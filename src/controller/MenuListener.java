@@ -24,13 +24,13 @@ public class MenuListener implements ActionListener{
         }
         else if(e.getSource() == GameBoard.networkItem){
             GameManager.selectGameMode(GameMode.NETWORK);
-            //GameManager.connectToNetwork();
+            GameManager.connectToNetwork();
             GameBoard.startGameItem.setEnabled(true);
         } 
         else if(e.getSource() == GameBoard.startGameItem){
             GameManager.startGame();
             if(GameManager.gameMode == GameMode.ONE_PLAYER || GameManager.gameMode == GameMode.TWO_PLAYER){
-                GameBoard.startGame();
+                GameBoard.startHumanGame();
             }
         }
     }

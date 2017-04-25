@@ -66,12 +66,17 @@ public class GameManager{
         if(gameMode == GameMode.ONE_PLAYER){
             gameState = playerOne.takeTurn(gameState, selectedMove);
             GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
-            if(gameState.gameOver()) GameBoard.showGameResults(gameState.getWinner().getGameWinner());              
-            gameState = playerTwo.takeTurn(gameState, selectedMove);
-            GameBoard.displayMove(selectedMove, playerTwo.isIsXPlayer());
-            if(gameState.gameOver()) {
+            if(gameState.gameOver()){
                 System.out.println(gameState.getWinner().getGameWinner());
                 GameBoard.showGameResults(gameState.getWinner().getGameWinner());
+            }
+            else{
+                gameState = playerTwo.takeTurn(gameState, selectedMove);
+                GameBoard.displayMove(selectedMove, playerTwo.isIsXPlayer());
+                if (gameState.gameOver()) {
+                    System.out.println(gameState.getWinner().getGameWinner());
+                    GameBoard.showGameResults(gameState.getWinner().getGameWinner());
+                }
             }            
         }
         else if(gameMode == GameMode.TWO_PLAYER){
@@ -91,27 +96,50 @@ public class GameManager{
         }                
         else{
             while(true){
-                long t1 = System.currentTimeMillis();
-                gameState = playerOne.takeTurn(gameState, selectedMove);
-                long t2 = System.currentTimeMillis();
-                
-                if(t2 - t1 < 5000){                
-                    try {
-                        Thread.sleep(5000 - (t2 - t1));
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
+                if(network.isFirstPlayer){
+                    localTurn();
+                    if (gameState.gameOver()) {
+                        break;
+                    }
+                    networkTurn();
+                    if (gameState.gameOver()) {
+                        break;
                     }
                 }
-                GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
-                network.sendMove(selectedMove);
-                if (gameState.gameOver()) break;
-                selectedMove = network.getMove();
-                gameState.opponentMove(selectedMove);
-                GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
-                if (gameState.gameOver()) break;
+                else{
+                    networkTurn();
+                    if (gameState.gameOver()) {
+                        break;
+                    }
+                    localTurn();
+                    if (gameState.gameOver()) {
+                        break;
+                    }
+                }
             }
             GameBoard.showGameResults(gameState.getWinner().getGameWinner());            
         }                
         
+    }
+    private static void localTurn(){
+        long t1 = System.currentTimeMillis();
+        gameState = playerOne.takeTurn(gameState, selectedMove);
+        long t2 = System.currentTimeMillis();
+
+        if (t2 - t1 < 5000) {
+            try {
+                Thread.sleep(5000 - (t2 - t1));
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
+        network.sendMove(selectedMove);
+    }
+    
+    private static void networkTurn(){
+        selectedMove = network.getMove();
+        gameState.opponentMove(selectedMove);
+        GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
     }
 }

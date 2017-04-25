@@ -29,6 +29,7 @@ public class SocketNetwork extends NetworkImplementer{
     DataOutputStream out;
     DataInputStream in;
     public boolean connectAttempted;
+    public boolean isFirstPlayer;
     
     public SocketNetwork(){
 
@@ -36,7 +37,7 @@ public class SocketNetwork extends NetworkImplementer{
         startServer();
         connectAttempted = false;
         attemptConnection();
-        NetworkPopUp popUp= new NetworkPopUp(this);
+        NetworkPopUp popUp = new NetworkPopUp(this);
        
         int m = 1;
         

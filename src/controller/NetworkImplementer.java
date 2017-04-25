@@ -10,6 +10,7 @@ package controller;
  * @author micha
  */
 public abstract class NetworkImplementer {
+    public boolean isFirstPlayer;
     public abstract void sendMove(int m);
     public abstract int getMove();
 }
