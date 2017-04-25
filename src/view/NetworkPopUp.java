@@ -10,11 +10,13 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import model.SocketNetwork;
@@ -23,8 +25,10 @@ import model.SocketNetwork;
 public class NetworkPopUp {
     private JTextField iNetAddressField;
     private JTextField portNumberField;
+    private JRadioButton firstPlayer, secondPlayer;
+    private ButtonGroup radioGroup;
     private JButton connect;
-    private JButton cancel;
+    private JButton cancel;    
     public InetAddress address;
     public int port;
     JFrame popUp;
@@ -53,6 +57,15 @@ public class NetworkPopUp {
 //        popUpPanel.add(new JLabel("Port Number:"));
 //        popUpPanel.add(portNumberField);
         
+        firstPlayer = new JRadioButton("First Player");
+        firstPlayer.setSelected(true);
+        secondPlayer = new JRadioButton("Second Player");
+        radioGroup = new ButtonGroup();
+        radioGroup.add(firstPlayer);
+        radioGroup.add(secondPlayer);        
+        popUpPanel.add(firstPlayer);
+        popUpPanel.add(secondPlayer);
+        
         popUpPanel.add(Box.createHorizontalStrut(10));
         ButtonListener buttonListener = new ButtonListener();
         connect= new JButton("Connect");
@@ -62,7 +75,7 @@ public class NetworkPopUp {
         popUpPanel.add(connect);
         popUpPanel.add(cancel);
 
-        popUp.add(popUpPanel);
+        popUp.add(popUpPanel);        
         popUp.setVisible(true);
     }
     public boolean getConnectAttempted(){
@@ -75,7 +88,7 @@ public class NetworkPopUp {
         @Override
         public void actionPerformed(ActionEvent ae) {
             JButton source = (JButton)ae.getSource();
-            if (source == connect){
+            if (source == connect){                
                 port = Integer.parseInt(portNumberField.getText());
                 try {
                     address = InetAddress.getByName(iNetAddressField.getText());
@@ -87,7 +100,13 @@ public class NetworkPopUp {
                 network.hostAddress = address;
                 network.portNumber = port;
                 network.connectAttempted = connectAttempted;
-                popUp.setVisible(false);
+                
+                if(firstPlayer.isSelected()){
+                    network.isFirstPlayer = true;
+                }
+                else{
+                    network.isFirstPlayer = false;
+                }
             } 
             else{
                 popUp.setVisible(false);
