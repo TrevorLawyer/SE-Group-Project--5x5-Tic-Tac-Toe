@@ -28,7 +28,7 @@ public class GameBoard extends JFrame{
     private final JMenuBar menuBar;
     private final JMenu optionsMenu, gameModeSubMenu, localSubMenu;
     public static JMenuItem onePlayerItem, twoPlayerItem, 
-            networkItem, startGameItem;
+            networkItem, startGameItem, restartGameItem;
     public static ArrayList<JButton> tiles;
     private static final int MAX_TILES = 25;
     private Font buttonFont= new Font("SansSerif", Font.BOLD, 60);
@@ -67,9 +67,13 @@ public class GameBoard extends JFrame{
         startGameItem = new JMenuItem("Start Game");
         startGameItem.setEnabled(false);
         
+        restartGameItem = new JMenuItem("New Game");
+        restartGameItem.setEnabled(false);
+        
         //add items to Options menu
         optionsMenu.add(gameModeSubMenu);                
         optionsMenu.add(startGameItem);
+        optionsMenu.add(restartGameItem);
         
         //add menu bar to view
         this.setJMenuBar(menuBar);  
@@ -79,6 +83,7 @@ public class GameBoard extends JFrame{
         twoPlayerItem.addActionListener(menuListener);
         networkItem.addActionListener(menuListener);
         startGameItem.addActionListener(menuListener);
+        restartGameItem.addActionListener(menuListener);
         
         //Add button panel for gameplay 
         JPanel gameArea = new JPanel();
