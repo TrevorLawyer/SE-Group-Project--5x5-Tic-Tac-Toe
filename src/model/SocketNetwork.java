@@ -16,7 +16,7 @@ public class SocketNetwork extends NetworkImplementer{
     public int portNumber;
     Socket client;
     ServerSocket host;
-    private final int HOST_PORT = 1500;
+    private final int HOST_PORT = 9001;
     DataOutputStream out;
     DataInputStream in;
     public boolean connectAttempted;
@@ -45,6 +45,7 @@ public class SocketNetwork extends NetworkImplementer{
                     System.out.println("Waiting for clients to connect...");
                     while (true) {
                         Socket clientSocket = serverSocket.accept();
+                        System.out.println("External connection to socket server");
                         in = new DataInputStream(clientSocket.getInputStream());
                         
                     }
@@ -66,7 +67,8 @@ public class SocketNetwork extends NetworkImplementer{
                     
                 }
                 try{
-                    client = new Socket(hostAddress, portNumber);
+                    client = new Socket(hostAddress, HOST_PORT);
+                    System.out.println("Connected to external socket server");
                     out = new DataOutputStream(client.getOutputStream());          
                 }
                     catch(IOException e){         
@@ -82,7 +84,9 @@ public class SocketNetwork extends NetworkImplementer{
     @Override
     public void sendMove(int m) {
         try {
+            
             out.writeInt(m);
+            System.out.println("Sent " + m);
         } catch (IOException ex) {
             
         }
@@ -93,6 +97,7 @@ public class SocketNetwork extends NetworkImplementer{
         int m = -1;
         try {
             m = in.readInt();
+            System.out.println("Recieved" + m);
         } catch (IOException ex) {
             
         }
