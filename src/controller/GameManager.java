@@ -5,7 +5,6 @@
  */
 package controller;
 
-import java.util.ArrayList;
 import model.BotPlayer;
 import model.GameMode;
 import model.HumanPlayer;
@@ -13,19 +12,38 @@ import model.Player;
 import model.SocketNetwork;
 import controller.GameState;
 import controller.VirtualGameBoard;
-import model.IntraSystem;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import view.GameBoard;
 
 
 public class GameManager{
     private static GameState gameState;
     private static VirtualGameBoard gameBoard;
-    private static NetworkImplementer network;
+    private static SocketNetwork network;
     public static int selectedMove = 0;
     public static int gameMode;
     private static Player playerOne;   
     private static Player playerTwo;
     private static String turn = "p1";
+    private static final ExecutorService executor = Executors.newCachedThreadPool();   
+    private static Future<Integer> future;
+    private static boolean timeout = false;
+    
+    private static Callable<Integer> task = new Callable<Integer>() {
+        @Override
+        public Integer call() throws Exception {
+            return network.getMove();
+        }
+       
+    };
     
     public static void selectGameMode(int gm){
         gameMode = gm;
@@ -36,9 +54,6 @@ public class GameManager{
     }
     
     public static void startGame(){        
-        if(gameMode != GameMode.NETWORK){
-            network = new IntraSystem();
-        }        
         
         gameState = new GameState(true);
         gameBoard = new VirtualGameBoard(5);
@@ -58,6 +73,7 @@ public class GameManager{
                 break;            
         }        
         if(gameMode == GameMode.NETWORK){
+           future = executor.submit(task);
            makeMove();
         }
     }         
@@ -102,13 +118,13 @@ public class GameManager{
                         break;
                     }
                     networkTurn();
-                    if (gameState.gameOver()) {
+                    if (gameState.gameOver() || timeout) {
                         break;
                     }
                 }
                 else{
                     networkTurn();
-                    if (gameState.gameOver()) {
+                    if (gameState.gameOver() || timeout) {
                         break;
                     }
                     localTurn();
@@ -134,12 +150,21 @@ public class GameManager{
             }
         }
         GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
-        network.sendMove(selectedMove);
+        network.sendMove(selectedMove);        
     }
     
     private static void networkTurn(){
-        selectedMove = network.getMove();
-        gameState.opponentMove(selectedMove);
-        GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
+        try{
+            selectedMove = future.get(5, TimeUnit.SECONDS);
+            gameState.opponentMove(selectedMove);
+            GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
+        } catch(TimeoutException ex){
+            gameState.setWinner(Winner.O);
+            timeout = true;
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
 }
