@@ -328,6 +328,10 @@ public class GameState {
 
     public GameWinner getWinner() {
         return winner;
+    }      
+    
+    public void setWinner(Winner w){
+        winner.setGameWinner(w);
     }
 
     public int getMinMovesRequiredToWin() {
