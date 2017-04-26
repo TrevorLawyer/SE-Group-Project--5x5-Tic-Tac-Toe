@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import controller.GameManager;
@@ -11,10 +6,6 @@ import controller.MoveNode;
 import controller.Spot;
 import java.util.ArrayList;
 
-/**
- *
- * @author TJaeckel
- */
 public class BotPlayer extends Player{
     private final int INITIAL_DEPTH = 0;
     GameState gameState;

@@ -9,10 +9,6 @@ import javax.swing.JFrame;
 import model.ServerHost;
 import view.GameBoard;
 
-/**
- *
- * @author micha
- */
 public class Main {
     public static final int WIN_WIDTH = 800;
     public static final int WIN_HEIGHT = 800;
@@ -26,9 +22,6 @@ public class Main {
         gameBoard.setLocation(100, 0);
         gameBoard.setResizable(false);
         gameBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameBoard.setVisible(true);
-        
-        
-        //new Thread(someThread).start();
+        gameBoard.setVisible(true);                
     }
 }
