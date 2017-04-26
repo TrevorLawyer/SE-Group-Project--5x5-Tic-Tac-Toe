@@ -132,15 +132,21 @@ public class GameManager{
     
     private static void networkTurn(){
         selectedMove = Main.host.getMove();
-        gameState.opponentMove(selectedMove);
-        displayMove(selectedMove, !playerOne.isIsXPlayer());
+        if(selectedMove >= 0){
+            gameState.opponentMove(selectedMove);
+            displayMove(selectedMove, !playerOne.isIsXPlayer());
+        }
+        else{
+            timeout = true;
+        }
+        
     }
 
     private static void showResults() {
         GameBoard.showGameResults(gameState.getWinner().getGameWinner());            
     }
 
-    private static void displayMove(int selectedMove, boolean XPlayer) {
+    private static void displayMove(int selectedMove, boolean XPlayer) {        
         GameBoard.displayMove(selectedMove, XPlayer);
     }
 }

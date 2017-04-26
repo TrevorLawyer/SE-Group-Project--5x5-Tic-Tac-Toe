@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,20 +38,28 @@ public class ServerHost {
                     e.printStackTrace();
                 }    
                 //while (true) {
-                        Socket clientSocket = null;
-                    try {
-                        clientSocket = serverSocket.accept();
-                    } catch (IOException ex) {
-                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
-                       
-                    }
-                        System.out.println("External connection to socket server"); 
-                    try {
-                        in = new DataInputStream(clientSocket.getInputStream());                 
-                      } catch (IOException ex) {
-                        System.out.println("Could not Create input sream");
-                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                Socket clientSocket = null;
+                try {
+                    clientSocket = serverSocket.accept();
+                } catch (IOException ex) {
+                    Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);                    
+                }
+                
+                
+                try {
+                    clientSocket.setSoTimeout(5000);
+                } catch (SocketException ex) {
+                    Logger.getLogger(ServerHost.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                System.out.println("External connection to socket server");                
+                try {
+                    in = new DataInputStream(clientSocket.getInputStream());                    
+                } catch (IOException ex) {
+                    System.out.println("Could not Create input sream");
+                    Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         Thread serverThread = new Thread(serverTask);
@@ -61,7 +70,7 @@ public class ServerHost {
         int m = -1;
         try {
             m = in.readInt();
-            System.out.println("Recieved" + m);
+            System.out.println("Recieved: " + m);
         } catch (IOException ex) {
             
         }

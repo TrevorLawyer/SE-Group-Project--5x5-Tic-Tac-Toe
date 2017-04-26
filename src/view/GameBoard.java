@@ -126,7 +126,7 @@ public class GameBoard extends JFrame{
             winMessage = "O Player is the Winner!";
         }
         else{
-            winMessage = "Something went wrong and no one Won!";
+            winMessage = "Remote player failed to move in a resonable amount of time";
         }
         JOptionPane.showMessageDialog(null, winMessage);
     }
