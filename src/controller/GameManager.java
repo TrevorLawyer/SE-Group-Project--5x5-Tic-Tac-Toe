@@ -46,9 +46,7 @@ public class GameManager{
                         if (gameState.gameOver()) {
                             showResults();
                         }
-                        if(t == thisThread){
-                            networkTurn();
-                        }
+                        networkTurn();                        
                         if (gameState.gameOver() || timeout) {
                             showResults();
                         }
