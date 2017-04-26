@@ -89,7 +89,7 @@ public class NetworkPopUp {
         public void actionPerformed(ActionEvent ae) {
             JButton source = (JButton)ae.getSource();
             if (source == connect){                
-                port = Integer.parseInt(portNumberField.getText());
+                //port = Integer.parseInt(portNumberField.getText());
                 try {
                     address = InetAddress.getByName(iNetAddressField.getText());
                 } catch (UnknownHostException ex) {
@@ -98,7 +98,7 @@ public class NetworkPopUp {
                 }
                 connectAttempted = true;
                 network.hostAddress = address;
-                network.portNumber = port;
+               // network.portNumber = port;
                 network.connectAttempted = connectAttempted;
                 
                 if(firstPlayer.isSelected()){
