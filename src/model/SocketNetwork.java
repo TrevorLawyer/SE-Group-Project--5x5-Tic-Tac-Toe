@@ -112,17 +112,17 @@ public class SocketNetwork extends NetworkImplementer{
         }
     }
 
-    @Override
-    public int getMove() {
-        int m = -1;
-        try {
-            m = in.readInt();
-            System.out.println("Recieved" + m);
-        } catch (IOException ex) {
-            
-        }
-        return m;
-    }
+   // @Override
+////    public int getMove() {
+//        int m = -1;
+//        try {
+//            m = in.readInt();
+//            System.out.println("Recieved" + m);
+//        } catch (IOException ex) {
+//            
+//        }
+//        return m;
+//    }
     
 
     
