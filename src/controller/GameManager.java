@@ -25,6 +25,32 @@ public class GameManager{
     private static Player playerTwo;
     private static String turn = "p1";
     private static boolean timeout = false;
+    private static Thread t = new Thread(new Runnable(){
+        @Override
+        public void run() {
+            if (network.isFirstPlayer) {
+                localTurn();
+                if (gameState.gameOver()) {
+                    showResults();
+                }
+                networkTurn();
+                if (gameState.gameOver() || timeout) {
+                    showResults();
+                }
+//                makeMove();
+            } else {
+                networkTurn();
+                if (gameState.gameOver() || timeout) {
+                    showResults();
+                }
+                localTurn();
+                if (gameState.gameOver()) {
+                    showResults();
+                }
+//                makeMove();
+            }
+        }
+    });
     
     public static void selectGameMode(int gm){
         gameMode = gm;
@@ -50,12 +76,10 @@ public class GameManager{
                 playerTwo = new HumanPlayer(true);
                 break;        
             case GameMode.NETWORK:
-                playerOne = new BotPlayer(false);              
+                playerOne = new BotPlayer(false);   
+                t.start();
                 break;            
         }        
-        if(gameMode == GameMode.NETWORK){
-           makeMove();
-        }
     }         
     
     public static void makeMove(){
@@ -89,39 +113,14 @@ public class GameManager{
             }
             GameBoard.displayMove(selectedMove, currentPlayer.isIsXPlayer());
             if(gameState.gameOver()) GameBoard.showGameResults(gameState.getWinner().getGameWinner());  
-        }                
-        else{
-            while(true){
-                if(network.isFirstPlayer){
-                    localTurn();
-                    if (gameState.gameOver()) {
-                        break;
-                    }
-                    networkTurn();
-                    if (gameState.gameOver() || timeout) {
-                        break;
-                    }
-                }
-                else{
-                    networkTurn();
-                    if (gameState.gameOver() || timeout) {
-                        break;
-                    }
-                    localTurn();
-                    if (gameState.gameOver()) {
-                        break;
-                    }
-                }
-            }
-            GameBoard.showGameResults(gameState.getWinner().getGameWinner());            
-        }                
+        }                                
         
     }
     private static void localTurn(){
         long t1 = System.currentTimeMillis();
         gameState = playerOne.takeTurn(gameState, selectedMove);
-        long t2 = System.currentTimeMillis();
-
+        long t2 = System.currentTimeMillis();    
+        displayMove(selectedMove, playerOne.isIsXPlayer());        
         if (t2 - t1 < 5000) {
             try {
                 Thread.sleep(5000 - (t2 - t1));
@@ -129,13 +128,20 @@ public class GameManager{
                 Thread.currentThread().interrupt();
             }
         }
-        GameBoard.displayMove(selectedMove, playerOne.isIsXPlayer());
         network.sendMove(selectedMove);        
     }
     
     private static void networkTurn(){
         selectedMove = Main.host.getMove();
         gameState.opponentMove(selectedMove);
-        GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
+        displayMove(selectedMove, !playerOne.isIsXPlayer());
+    }
+
+    private static void showResults() {
+        GameBoard.showGameResults(gameState.getWinner().getGameWinner());            
+    }
+
+    private static void displayMove(int selectedMove, boolean XPlayer) {
+        GameBoard.displayMove(selectedMove, XPlayer);
     }
 }
