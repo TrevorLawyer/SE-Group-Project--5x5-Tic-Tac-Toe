@@ -12,15 +12,6 @@ import model.Player;
 import model.SocketNetwork;
 import controller.GameState;
 import controller.VirtualGameBoard;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import view.GameBoard;
 
 
@@ -33,17 +24,7 @@ public class GameManager{
     private static Player playerOne;   
     private static Player playerTwo;
     private static String turn = "p1";
-    private static final ExecutorService executor = Executors.newCachedThreadPool();   
-    private static Future<Integer> future;
     private static boolean timeout = false;
-    
-    private static Callable<Integer> task = new Callable<Integer>() {
-        @Override
-        public Integer call() throws Exception {
-            return network.getMove();
-        }
-       
-    };
     
     public static void selectGameMode(int gm){
         gameMode = gm;
@@ -73,7 +54,6 @@ public class GameManager{
                 break;            
         }        
         if(gameMode == GameMode.NETWORK){
-           future = executor.submit(task);
            makeMove();
         }
     }         
@@ -154,17 +134,8 @@ public class GameManager{
     }
     
     private static void networkTurn(){
-        try{
-            selectedMove = future.get(5, TimeUnit.SECONDS);
-            gameState.opponentMove(selectedMove);
-            GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
-        } catch(TimeoutException ex){
-            gameState.setWinner(Winner.O);
-            timeout = true;
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExecutionException ex) {
-            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        selectedMove = network.getMove();
+        gameState.opponentMove(selectedMove);
+        GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
     }
 }
