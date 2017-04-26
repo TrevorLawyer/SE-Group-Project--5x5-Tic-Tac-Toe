@@ -76,8 +76,13 @@ public class SocketNetwork extends NetworkImplementer{
         Runnable connection = new Runnable() {
             @Override
             public void run() {
+                
                 while(!connectAttempted){
-                    
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 client = null;
                 try{
