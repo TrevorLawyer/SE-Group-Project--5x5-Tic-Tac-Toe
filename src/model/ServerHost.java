@@ -64,8 +64,7 @@ public class ServerHost {
                 
             }
         };
-        Thread serverThread = new Thread(serverTask);
-        serverThread.start();
+        
     } 
     public int getMove() {
         int m = -1;

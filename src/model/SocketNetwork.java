@@ -104,8 +104,7 @@ public class SocketNetwork extends NetworkImplementer{
             }
             
         };
-        Thread connectThread = new Thread(connection);
-        connectThread.start();
+        
         
     }
     
