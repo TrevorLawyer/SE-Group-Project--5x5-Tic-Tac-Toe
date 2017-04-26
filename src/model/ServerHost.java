@@ -51,13 +51,7 @@ public class ServerHost {
                         System.out.println("Could not Create input sream");
                         Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    while (true){
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(ServerHost.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    }
+                    
                     
                         
                     //}

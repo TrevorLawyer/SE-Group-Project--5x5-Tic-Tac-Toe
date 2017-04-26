@@ -94,13 +94,7 @@ public class SocketNetwork extends NetworkImplementer{
                         System.out.println("Did not connect to external");
                 }
                 
-                while(true){
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                }
+              
             }
             
         };
