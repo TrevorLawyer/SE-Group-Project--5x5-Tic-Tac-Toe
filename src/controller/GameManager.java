@@ -118,8 +118,7 @@ public class GameManager{
     private static void localTurn(){
         long t1 = System.currentTimeMillis();
         gameState = playerOne.takeTurn(gameState, selectedMove);
-        long t2 = System.currentTimeMillis();    
-        displayMove(selectedMove, playerOne.isIsXPlayer());        
+        long t2 = System.currentTimeMillis();            
         if (t2 - t1 < 5000) {
             try {
                 Thread.sleep(5000 - (t2 - t1));
@@ -127,6 +126,7 @@ public class GameManager{
                 Thread.currentThread().interrupt();
             }
         }
+        displayMove(selectedMove, playerOne.isIsXPlayer());        
         network.sendMove(selectedMove);        
     }
     
