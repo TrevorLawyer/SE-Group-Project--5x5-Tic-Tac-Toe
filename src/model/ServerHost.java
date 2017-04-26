@@ -47,7 +47,7 @@ public class ServerHost {
                 
                 
                 try {
-                    clientSocket.setSoTimeout(5000);
+                    clientSocket.setSoTimeout(7000);
                 } catch (SocketException ex) {
                     Logger.getLogger(ServerHost.class.getName()).log(Level.SEVERE, null, ex);
                 }
