@@ -51,7 +51,9 @@ public class GameManager{
                         if (gameState.gameOver()) {
                             showResults();
                         }
-                        networkTurn();
+                        if(t == thisThread){
+                            networkTurn();
+                        }
                         if (gameState.gameOver() || timeout) {
                             showResults();
                         }

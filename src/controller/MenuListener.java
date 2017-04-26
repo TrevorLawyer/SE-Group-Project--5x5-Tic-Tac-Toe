@@ -41,13 +41,16 @@ public class MenuListener implements ActionListener{
         }
         else if(e.getSource() == GameBoard.restartGameItem){            
             if(GameManager.gameMode == GameMode.NETWORK){
+                GameManager.endNetworkPlay();
                 GameManager.connectToNetwork();
             }
-            GameBoard.resetBoard();
-            GameManager.startGame();
-            if(GameManager.gameMode == GameMode.ONE_PLAYER || GameManager.gameMode == GameMode.TWO_PLAYER){
-                GameBoard.startHumanGame();
-            }
+            GameBoard.startGameItem.setEnabled(true);
+            GameBoard.restartGameItem.setEnabled(false);
+//            GameBoard.resetBoard();
+//            GameManager.startGame();
+//            if(GameManager.gameMode == GameMode.ONE_PLAYER || GameManager.gameMode == GameMode.TWO_PLAYER){
+//                GameBoard.startHumanGame();
+//            }
         }
     }
     
