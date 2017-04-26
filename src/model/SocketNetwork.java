@@ -24,7 +24,7 @@ public class SocketNetwork extends NetworkImplementer{
     public SocketNetwork(){
 
         connectAttempted = false;
-        startServer();
+        //startServer();
         connectAttempted = false;
         attemptConnection();
         NetworkPopUp popUp = new NetworkPopUp(this);
@@ -35,41 +35,42 @@ public class SocketNetwork extends NetworkImplementer{
         
         
     }
-    public void startServer() {
-
-        Runnable serverTask = new Runnable() {
-            @Override
-            public void run() {
-                ServerSocket serverSocket = null;
-                try {
-                    serverSocket = new ServerSocket(HOST_PORT);
-                    System.out.println("Waiting for clients to connect...");
-                } catch (IOException e) {
-                    System.err.println("Couldn't create socket");
-                    e.printStackTrace();
-                }    
-                while (true) {
-                        Socket clientSocket = null;
-                    try {
-                        clientSocket = serverSocket.accept();
-                    } catch (IOException ex) {
-                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                        System.out.println("External connection to socket server");
-                    try {
-                        in = new DataInputStream(clientSocket.getInputStream());
-                    } catch (IOException ex) {
-                        System.out.println("Could not Create input sream");
-                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                        
-                    }
-                
-            }
-        };
-        Thread serverThread = new Thread(serverTask);
-        serverThread.start();
-    }
+//    public void startServer() {
+//
+//        Runnable serverTask = new Runnable() {
+//            @Override
+//            public void run() {
+//                ServerSocket serverSocket = null;
+//                try {
+//                    serverSocket = new ServerSocket(HOST_PORT);
+//                    System.out.println("Waiting for clients to connect...");
+//                } catch (IOException e) {
+//                    System.err.println("Couldn't create socket");
+//                    e.printStackTrace();
+//                }    
+//                //while (true) {
+//                        Socket clientSocket = null;
+//                    try {
+//                        clientSocket = serverSocket.accept();
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
+//                       
+//                    }
+//                        System.out.println("External connection to socket server"); 
+//                    try {
+//                        in = new DataInputStream(clientSocket.getInputStream());
+//                    } catch (IOException ex) {
+//                        System.out.println("Could not Create input sream");
+//                        Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                        
+//                    //}
+//                
+//            }
+//        };
+//        Thread serverThread = new Thread(serverTask);
+//        serverThread.start();
+//    }
     
     public void attemptConnection() {
         Runnable connection = new Runnable() {
