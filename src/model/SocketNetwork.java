@@ -20,12 +20,14 @@ public class SocketNetwork extends NetworkImplementer{
     DataOutputStream out;
     DataInputStream in;
     public boolean connectAttempted;
+    boolean connected;
     
     public SocketNetwork(){
 
         connectAttempted = false;
         //startServer();
         connectAttempted = false;
+        connected = false;
         attemptConnection();
         NetworkPopUp popUp = new NetworkPopUp(this);
        
@@ -88,25 +90,20 @@ public class SocketNetwork extends NetworkImplementer{
                 try{
                     client = new Socket(hostAddress, HOST_PORT);
                     System.out.println("Connected to external socket server");
-                    out = new DataOutputStream(client.getOutputStream());          
+                    out = new DataOutputStream(client.getOutputStream());   
+                    connected = true;
                 }
                     catch(IOException e){    
                         System.out.println("Did not connect to external");
-                }
-                
-                while(true){
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 }
             }
             
         };
         Thread connectThread = new Thread(connection);
         connectThread.start();
-        
+        if(connected){
+        connectThread.interrupt();
+        }
     }
     
     @Override
