@@ -46,8 +46,8 @@ public class ServerHost {
                     }
                         System.out.println("External connection to socket server"); 
                     try {
-                        in = new DataInputStream(clientSocket.getInputStream());
-                    } catch (IOException ex) {
+                        in = new DataInputStream(clientSocket.getInputStream());                 
+                      } catch (IOException ex) {
                         System.out.println("Could not Create input sream");
                         Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -59,5 +59,15 @@ public class ServerHost {
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
     } 
+    public int getMove() {
+        int m = -1;
+        try {
+            m = in.readInt();
+            System.out.println("Recieved" + m);
+        } catch (IOException ex) {
+            
+        }
+        return m;
+    }
 }
 

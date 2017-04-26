@@ -105,11 +105,12 @@ public class NetworkPopUp {
                     network.isFirstPlayer = true;
                 }
                 else{
-                    network.isFirstPlayer = false;
+                    network.isFirstPlayer = false;                  
                 }
+                popUp.setVisible(false);
             } 
             else{
-                popUp.setVisible(false);
+                popUp.setVisible(false);               
             }
                
             

@@ -134,7 +134,7 @@ public class GameManager{
     }
     
     private static void networkTurn(){
-        selectedMove = network.getMove();
+        selectedMove = Main.host.getMove();
         gameState.opponentMove(selectedMove);
         GameBoard.displayMove(selectedMove, !playerOne.isIsXPlayer());
     }

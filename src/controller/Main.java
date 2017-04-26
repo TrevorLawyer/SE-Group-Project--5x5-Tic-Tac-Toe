@@ -16,9 +16,10 @@ import view.GameBoard;
 public class Main {
     public static final int WIN_WIDTH = 800;
     public static final int WIN_HEIGHT = 800;
+    public static ServerHost host;
     
     public static void main(String[] args){
-        ServerHost host = new ServerHost();
+        host = new ServerHost();
         JFrame gameBoard = new GameBoard();
         gameBoard.setTitle("The Tica Tacs: 5 X 5 Tic-tac-toe");
         gameBoard.setSize(WIN_WIDTH, WIN_HEIGHT);
