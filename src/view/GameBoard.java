@@ -129,6 +129,7 @@ public class GameBoard extends JFrame{
             winMessage = "Remote player failed to move in a resonable amount of time";
         }
         JOptionPane.showMessageDialog(null, winMessage);
+        GameManager.endNetworkPlay();
     }
     public static void displayMove(int m, boolean playerIsX){
         if (playerIsX){

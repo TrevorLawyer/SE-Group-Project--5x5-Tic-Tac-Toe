@@ -25,31 +25,7 @@ public class GameManager{
     private static Player playerTwo;
     private static String turn = "p1";
     private static boolean timeout = false;
-    private static Thread t = new Thread(new Runnable(){
-        @Override
-        public void run() {
-            if (network.isFirstPlayer) {
-                localTurn();
-                if (gameState.gameOver()) {
-                    showResults();
-                }
-                networkTurn();
-                if (gameState.gameOver() || timeout) {
-                    showResults();
-                }
-            } else {
-                networkTurn();
-                if (gameState.gameOver() || timeout) {
-                    showResults();
-                }
-                localTurn();
-                if (gameState.gameOver()) {
-                    showResults();
-                }
-            } 
-            t.run();//not sure how else to handle inturrupt
-        }
-    });
+    private static Thread t; 
     
     public static void selectGameMode(int gm){
         gameMode = gm;
@@ -65,6 +41,36 @@ public class GameManager{
         gameBoard = new VirtualGameBoard(5);
         gameState.buildBoard(gameBoard);
         
+        t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Thread thisThread = Thread.currentThread();
+                while (t == thisThread) {
+                    if (network.isFirstPlayer) {
+                        localTurn();
+                        if (gameState.gameOver()) {
+                            showResults();
+                        }
+                        networkTurn();
+                        if (gameState.gameOver() || timeout) {
+                            showResults();
+                        }
+                    } else {
+                        networkTurn();
+                        if (gameState.gameOver() || timeout) {
+                            showResults();
+                        }
+                        if (t == thisThread) {
+                            localTurn();
+                        }
+                        if (gameState.gameOver()) {
+                            showResults();
+                        }
+                    }
+                }
+            }
+        });
+
         switch (gameMode) {        
             case GameMode.ONE_PLAYER:
                 playerOne = new HumanPlayer(true);
@@ -148,5 +154,9 @@ public class GameManager{
 
     private static void displayMove(int selectedMove, boolean XPlayer) {        
         GameBoard.displayMove(selectedMove, XPlayer);
+    }
+    
+    public static void endNetworkPlay(){
+        t = null;
     }
 }
