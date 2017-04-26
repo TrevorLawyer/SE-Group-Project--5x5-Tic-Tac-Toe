@@ -6,6 +6,7 @@
 package controller;
 
 import javax.swing.JFrame;
+import model.ServerHost;
 import view.GameBoard;
 
 /**
@@ -17,7 +18,7 @@ public class Main {
     public static final int WIN_HEIGHT = 800;
     
     public static void main(String[] args){
-        
+        ServerHost host = new ServerHost();
         JFrame gameBoard = new GameBoard();
         gameBoard.setTitle("The Tica Tacs: 5 X 5 Tic-tac-toe");
         gameBoard.setSize(WIN_WIDTH, WIN_HEIGHT);
@@ -25,6 +26,7 @@ public class Main {
         gameBoard.setResizable(false);
         gameBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameBoard.setVisible(true);
+        
         
         //new Thread(someThread).start();
     }
