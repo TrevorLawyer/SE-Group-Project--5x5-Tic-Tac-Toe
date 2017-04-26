@@ -37,7 +37,6 @@ public class GameManager{
                 if (gameState.gameOver() || timeout) {
                     showResults();
                 }
-//                makeMove();
             } else {
                 networkTurn();
                 if (gameState.gameOver() || timeout) {
@@ -47,8 +46,8 @@ public class GameManager{
                 if (gameState.gameOver()) {
                     showResults();
                 }
-//                makeMove();
-            }
+            } 
+            t.run();//not sure how else to handle inturrupt
         }
     });
     

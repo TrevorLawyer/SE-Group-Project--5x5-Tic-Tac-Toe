@@ -140,7 +140,6 @@ public class GameBoard extends JFrame{
         
         tiles.get(m).setText(currentTurn);
         tiles.get(m).setEnabled(false);
-
     }
     public class ButtonListener implements ActionListener {
 
