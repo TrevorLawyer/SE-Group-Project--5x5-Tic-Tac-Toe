@@ -20,12 +20,14 @@ public class SocketNetwork extends NetworkImplementer{
     DataOutputStream out;
     DataInputStream in;
     public boolean connectAttempted;
+    boolean connected;
     
     public SocketNetwork(){
 
         connectAttempted = false;
         //startServer();
         connectAttempted = false;
+        connected = false;
         attemptConnection();
         NetworkPopUp popUp = new NetworkPopUp(this);
        
@@ -88,7 +90,8 @@ public class SocketNetwork extends NetworkImplementer{
                 try{
                     client = new Socket(hostAddress, HOST_PORT);
                     System.out.println("Connected to external socket server");
-                    out = new DataOutputStream(client.getOutputStream());          
+                    out = new DataOutputStream(client.getOutputStream());   
+                    connected = true;
                 }
                     catch(IOException e){    
                         System.out.println("Did not connect to external");
@@ -98,7 +101,9 @@ public class SocketNetwork extends NetworkImplementer{
         };
         Thread connectThread = new Thread(connection);
         connectThread.start();
-        
+        if(connected){
+        connectThread.interrupt();
+        }
     }
     
     @Override
@@ -112,17 +117,17 @@ public class SocketNetwork extends NetworkImplementer{
         }
     }
 
-    @Override
-    public int getMove() {
-        int m = -1;
-        try {
-            m = in.readInt();
-            System.out.println("Recieved" + m);
-        } catch (IOException ex) {
-            
-        }
-        return m;
-    }
+   // @Override
+////    public int getMove() {
+//        int m = -1;
+//        try {
+//            m = in.readInt();
+//            System.out.println("Recieved" + m);
+//        } catch (IOException ex) {
+//            
+//        }
+//        return m;
+//    }
     
 
     

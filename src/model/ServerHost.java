@@ -51,13 +51,11 @@ public class ServerHost {
                         System.out.println("Could not Create input sream");
                         Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                        
-                    //}
-                
             }
         };
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
+        serverThread.interrupt();
     } 
     public int getMove() {
         int m = -1;
