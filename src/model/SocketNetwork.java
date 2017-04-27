@@ -92,6 +92,8 @@ public class SocketNetwork extends NetworkImplementer{
                     System.out.println("Connected to external socket server");
                     out = new DataOutputStream(client.getOutputStream());   
                     connected = true;
+                    out.writeInt(0);
+                    System.out.println("Sent a 0 for player turn determ");
                 }
                     catch(IOException e){    
                         System.out.println("Did not connect to external");
