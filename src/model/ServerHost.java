@@ -51,6 +51,12 @@ public class ServerHost {
                     System.out.println("Could not Create input sream");
                     Logger.getLogger(SocketNetwork.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                try {
+                    int i = in.readInt();
+                    System.out.println("Recieved " + i + " for random number");
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerHost.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         Thread serverThread = new Thread(serverTask);
